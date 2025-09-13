@@ -6,6 +6,31 @@ interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
+  isStreaming?: boolean;
+}
+
+interface StreamingTextProps {
+  text: string;
+  onComplete?: () => void;
+}
+
+function StreamingText({ text, onComplete }: StreamingTextProps) {
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timer = setTimeout(() => {
+        setDisplayedText(prev => prev + text[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, 20);
+      return () => clearTimeout(timer);
+    } else if (onComplete) {
+      onComplete();
+    }
+  }, [currentIndex, text, onComplete]);
+
+  return <span>{displayedText}<span className="animate-pulse">|</span></span>;
 }
 
 export function InlineChat() {
@@ -48,7 +73,8 @@ export function InlineChat() {
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: data.answer || 'Sorry, I could not process your request.'
+        content: data.answer || 'Sorry, I could not process your request.',
+        isStreaming: true,
       };
 
       setMessages(prev => [...prev, assistantMessage]);
@@ -80,12 +106,12 @@ export function InlineChat() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-3 sm:mt-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+    <div className="max-w-2xl mx-auto sm:mt-4 bg-white dark:bg-gray-800 rounded-t-lg sm:rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm flex-shrink-0 flex flex-col h-auto sm:h-auto">
       <div className="p-2 sm:p-3 border-b border-gray-200 dark:border-gray-700">
         <h3 className="font-semibold text-gray-800 dark:text-gray-200 text-sm sm:text-base">Ask AI About Me</h3>
       </div>
 
-      <div className="h-48 sm:h-64 overflow-y-auto p-2 sm:p-3 space-y-2 sm:space-y-3">
+      <div className="flex-1 sm:h-56 overflow-y-auto p-2 sm:p-3 space-y-2 sm:space-y-3">
         {messages.length === 0 && (
           <div className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">
             Start a conversation! Try asking about my expertise or recent projects.
@@ -104,7 +130,22 @@ export function InlineChat() {
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
               }`}
             >
-              <div className="text-xs whitespace-pre-wrap">{message.content}</div>
+              <div className="text-sm sm:text-base whitespace-pre-wrap font-body">
+                {message.role === 'assistant' && message.isStreaming ? (
+                  <StreamingText 
+                    text={message.content}
+                    onComplete={() => {
+                      setMessages(prev => 
+                        prev.map(m => 
+                          m.id === message.id ? { ...m, isStreaming: false } : m
+                        )
+                      );
+                    }}
+                  />
+                ) : (
+                  message.content
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -131,14 +172,14 @@ export function InlineChat() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask about my experience..."
-            className="flex-1 px-2 sm:px-3 py-1 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+            className="flex-1 px-2 sm:px-3 py-1 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-body"
             disabled={isLoading}
             maxLength={2000}
           />
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            className="px-3 sm:px-4 py-1 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
+            className="px-3 sm:px-4 py-1 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm font-body"
           >
             Send
           </button>

@@ -6,6 +6,36 @@
   color-scheme: light dark;
 }
 
+/* Clean background */
+body {
+  background: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+@media (max-width: 640px) {
+  body {
+    overflow: hidden;
+  }
+}
+
+.dark body {
+  background: #000000;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* macOS Header Styles */
 .mac-header {
   position: sticky;
@@ -48,31 +78,79 @@
   opacity: 0.85;
   font-variant-numeric: tabular-nums;
 }
-/* Skill pills and social links */
+
+/* Enhanced skill pills */
 .skill-pill {
-  @apply inline-block px-3 py-1 text-sm font-medium rounded-full transition-colors;
+  @apply inline-block px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg;
 }
 
 .skill-pill.core {
-  @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200;
+  @apply bg-blue-500 text-white shadow-md;
 }
 
 .skill-pill.secondary {
-  @apply bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200;
+  @apply bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-blue-500;
 }
 
+/* Enhanced social links */
 .social-link {
-  @apply w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-blue-500 hover:text-white transition-colors text-gray-600 dark:text-gray-300 text-lg;
+  @apply w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110 hover:shadow-xl text-lg;
+  @apply bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300;
+  @apply border border-gray-200 dark:border-gray-700;
+}
+
+.social-link:hover {
+  @apply bg-blue-500 text-white border-transparent transform rotate-3;
 }
 
 .client-logo {
   filter: grayscale(100%);
   opacity: 0.7;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .client-logo:hover {
   filter: grayscale(0%);
   opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Staggered text animation */
+.appear {
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: appear 0.6s ease-out forwards;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floating animation for skills */
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.float:nth-child(odd) {
+  animation-delay: -1s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
 }
 
