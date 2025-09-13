@@ -119,11 +119,11 @@ export default function MacHeader() {
             Go
           </button>
           {activeMenu === 'go' && (
-            <div className="absolute top-full left-0 bg-white dark:bg-gray-800 border rounded shadow-lg py-1 min-w-[120px] z-50">
+            <div className="absolute top-full left-0 bg-popover border border-border rounded shadow-lg py-1 min-w-[120px] z-50">
               {GO_MENU.map((item) => (
                 <button
                   key={item.id}
-                  className="w-full px-3 py-1 text-left hover:bg-gray-100 dark:hover:bg-gray-700 flex justify-between text-sm"
+                  className="w-full px-3 py-1 text-left hover:bg-accent hover:text-accent-foreground flex justify-between text-sm text-popover-foreground"
                   onClick={() => {
                     item.onClick?.();
                     setActiveMenu(null);

@@ -106,12 +106,12 @@ export function InlineChat() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto sm:mt-4 bg-white dark:bg-gray-800 rounded-t-lg sm:rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm flex-shrink-0 flex flex-col h-auto sm:h-auto">
+    <div className="max-w-2xl mx-auto sm:mt-4 bg-white dark:bg-gray-800 rounded-t-lg sm:rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm flex flex-col h-full">
       <div className="p-2 sm:p-3 border-b border-gray-200 dark:border-gray-700">
         <h3 className="font-semibold text-gray-800 dark:text-gray-200 text-sm sm:text-base">Ask AI About Me</h3>
       </div>
 
-      <div className="flex-1 sm:h-56 overflow-y-auto p-2 sm:p-3 space-y-2 sm:space-y-3">
+      <div className="flex-1 overflow-y-auto p-2 sm:p-3 space-y-2 sm:space-y-3">
         {messages.length === 0 && (
           <div className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">
             Start a conversation! Try asking about my expertise or recent projects.

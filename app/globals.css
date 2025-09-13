@@ -2,13 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Define design tokens - Dark theme as default */
 :root {
-  color-scheme: light dark;
+  --background: #181818;
+  --foreground: hsl(0 0% 98%);
+  --card: #181818;
+  --card-foreground: hsl(0 0% 98%);
+  --popover: #181818;
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: hsl(217.2 91.2% 59.8%);
+  --primary-foreground: hsl(0 0% 98%);
+  --secondary: #2A2A2A;
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: #2A2A2A;
+  --muted-foreground: hsl(240 5% 64.9%);
+  --accent: #2A2A2A;
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: #2A2A2A;
+  --input: #181818;
+  --ring: hsl(240 4.9% 83.9%);
+  --radius: 0.5rem;
+  color-scheme: dark;
+}
+
+/* Light theme */
+.light {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(240 10% 3.9%);
+  --card: hsl(0 0% 98%);
+  --card-foreground: hsl(240 10% 3.9%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(240 10% 3.9%);
+  --primary: hsl(217.2 91.2% 59.8%);
+  --primary-foreground: hsl(0 0% 98%);
+  --secondary: hsl(240 4.8% 95.9%);
+  --secondary-foreground: hsl(240 5.9% 10%);
+  --muted: hsl(240 4.8% 95.9%);
+  --muted-foreground: hsl(240 3.8% 46.1%);
+  --accent: hsl(240 4.8% 95.9%);
+  --accent-foreground: hsl(240 5.9% 10%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(240 5.9% 90%);
+  --input: hsl(240 5.9% 90%);
+  --ring: hsl(240 10% 3.9%);
+  color-scheme: light;
 }
 
 /* Clean background */
 body {
-  background: #ffffff;
+  background: var(--background);
+  color: var(--foreground);
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -17,37 +63,6 @@ body {
   body {
     overflow: hidden;
   }
-}
-
-.dark body {
-  background: #000000;
-}
-
-/* Subtle aurora/radial background overlay */
-.bg-aurora {
-  background: radial-gradient(800px 400px at 10% -10%, color-mix(in oklab, #3b82f6, transparent 70%), transparent 70%),
-              radial-gradient(600px 300px at 110% 10%, color-mix(in oklab, #22c55e, transparent 75%), transparent 75%),
-              radial-gradient(500px 300px at 50% 110%, color-mix(in oklab, #a855f7, transparent 80%), transparent 80%);
-  opacity: 0.35;
-}
-@media (prefers-color-scheme: dark) {
-  .bg-aurora {
-    opacity: 0.25;
-    filter: saturate(1.1);
-  }
-}
-
-/* Glass morphism effect */
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-}
-
-.dark .glass {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* macOS Header Styles */
@@ -61,9 +76,10 @@ body {
   height: 29px;
   padding: 0 12px;
   backdrop-filter: blur(8px);
-  background: color-mix(in oklab, canvas, transparent 25%);
-  border-bottom: 1px solid color-mix(in oklab, canvastext, transparent 85%);
+  background: color-mix(in srgb, var(--background) 80%, transparent);
+  border-bottom: 1px solid var(--border);
   font: 13px/1.0 system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--foreground);
 }
 
 .mac-header-left {
@@ -93,77 +109,49 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Enhanced skill pills */
+/* Glass effect */
+.glass {
+  background: color-mix(in srgb, var(--card) 80%, transparent);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+}
+
+/* Skill pills */
 .skill-pill {
-  @apply inline-block px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg;
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: all 0.2s ease;
+}
+
+.skill-pill:hover {
+  background: var(--accent);
+  border-color: var(--primary);
 }
 
 .skill-pill.core {
-  @apply bg-blue-500 text-white shadow-md;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
 }
 
-.skill-pill.secondary {
-  @apply bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-blue-500;
-}
-
-/* Enhanced social links */
+/* Social links */
 .social-link {
-  @apply w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110 hover:shadow-xl text-lg;
-  @apply bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300;
-  @apply border border-gray-200 dark:border-gray-700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--secondary);
+  color: var(--muted-foreground);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
 }
 
 .social-link:hover {
-  @apply bg-blue-500 text-white border-transparent transform rotate-3;
-}
-
-.client-logo {
-  filter: grayscale(100%);
-  opacity: 0.7;
-  transition: all 0.3s ease-in-out;
-}
-
-.client-logo:hover {
-  filter: grayscale(0%);
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-/* Staggered text animation */
-.appear {
-  opacity: 0;
-  will-change: opacity, transform;
-  animation: appear 0.6s ease-out forwards;
-}
-
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-.stagger-5 { animation-delay: 0.5s; }
-.stagger-6 { animation-delay: 0.6s; }
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Floating animation for skills */
-.float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.float:nth-child(odd) {
-  animation-delay: -1s;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
 }
