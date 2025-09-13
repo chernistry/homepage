@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title><![CDATA[Blog]]></title>
+        <description><![CDATA[Blog]]></description>
+        <link>https://example.com</link>
+        <generator>RSS for Node</generator>
+        <lastBuildDate>Sat, 13 Sep 2025 08:37:07 GMT</lastBuildDate>
+        <atom:link href="https://example.com/rss.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Test Blog Post]]></title>
+            <description><![CDATA[A test post to verify MDX blog functionality]]></description>
+            <link>https://example.com/blog/test-post</link>
+            <guid isPermaLink="false">test-post</guid>
+            <pubDate>Fri, 13 Sep 2024 00:00:00 GMT</pubDate>
+        </item>
+    </channel>
+</rss>
