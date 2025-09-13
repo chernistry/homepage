@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { ThemeProvider } from 'next-themes';
 import { inter } from '@/lib/fonts';
-import MenuBar from '@/components/macos/MenuBar';
+import MacHeader from '@/components/MacHeader';
 
 export const metadata: Metadata = {
   title: 'Sasha C. | Homepage',
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <MenuBar />
+          <MacHeader />
           <main className="min-h-screen">{children}</main>
         </ThemeProvider>
       </body>

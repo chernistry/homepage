@@ -1,21 +1,53 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Draggable from 'react-draggable';
 
-type Win = 'terminal' | 'synth' | null;
+type Win = 'projects' | 'tech' | 'about' | 'terminal' | 'synth' | null;
 type WState = { z: number; open: boolean };
 
+const Projects = dynamic(() => import('./Projects'), { ssr: false });
+const Tech = dynamic(() => import('./Tech'), { ssr: false });
+const About = dynamic(() => import('./About'), { ssr: false });
 const Terminal = dynamic(() => import('./Terminal'), { ssr: false });
 const Synth = dynamic(() => import('./Synth'), { ssr: false });
+
+const WINDOWS = [
+  { id: 'projects', title: 'Projects', component: Projects, icon: '📁' },
+  { id: 'tech', title: 'Tech', component: Tech, icon: '⚙️' },
+  { id: 'about', title: 'About', component: About, icon: '👤' },
+  { id: 'terminal', title: 'Terminal', component: Terminal, icon: '💻' },
+  { id: 'synth', title: 'Synthesizer', component: Synth, icon: '🎹' },
+] as const;
 
 export default function WindowHost() {
   const [active, setActive] = useState<Win>(null);
   const [z, setZ] = useState(10);
   const zmap = useRef<Record<string, WState>>({
+    projects: { z: 10, open: false },
+    tech: { z: 10, open: false },
+    about: { z: 10, open: false },
     terminal: { z: 10, open: false },
     synth: { z: 10, open: false },
   });
+
+  // Load window state from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('windowState');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        Object.assign(zmap.current, parsed);
+      } catch (e) {
+        // Ignore invalid saved state
+      }
+    }
+  }, []);
+
+  // Save window state to localStorage
+  useEffect(() => {
+    localStorage.setItem('windowState', JSON.stringify(zmap.current));
+  }, [zmap.current]);
 
   function open(w: Exclude<Win, null>) {
     zmap.current[w].open = true;
@@ -36,56 +68,60 @@ export default function WindowHost() {
 
   return (
     <div>
-      <div className="fixed bottom-4 left-4 flex gap-2">
-        <button
-          className="px-2 py-1 rounded bg-neutral-200"
-          onClick={() => open('terminal')}
-        >
-          Terminal
-        </button>
-        <button
-          className="px-2 py-1 rounded bg-neutral-200"
-          onClick={() => open('synth')}
-        >
-          Synth
-        </button>
+      {/* Dock */}
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1 p-2 bg-white/20 dark:bg-black/20 backdrop-blur-md rounded-xl border border-white/30 dark:border-white/10">
+        {WINDOWS.map((win) => (
+          <button
+            key={win.id}
+            className="w-12 h-12 flex items-center justify-center text-xl hover:scale-110 transition-transform duration-200 rounded-lg hover:bg-white/20 dark:hover:bg-white/10"
+            onClick={() => open(win.id as Exclude<Win, null>)}
+            title={win.title}
+          >
+            {win.icon}
+          </button>
+        ))}
       </div>
-      {zmap.current.terminal.open && (
-        <Draggable handle=".win-title" onStart={() => bring('terminal')}>
-          <div
-            style={{ zIndex: zmap.current.terminal.z }}
-            className="fixed top-24 left-12 w-[520px] h-[320px] rounded border bg-background shadow"
-          >
-            <div className="win-title cursor-move px-2 py-1 border-b">
-              Terminal{' '}
-              <button onClick={() => close('terminal')} className="float-right">
-                ✕
-              </button>
+
+      {/* Windows */}
+      {WINDOWS.map((win) => {
+        const Component = win.component;
+        const isOpen = zmap.current[win.id]?.open;
+        if (!isOpen) return null;
+
+        return (
+          <Draggable key={win.id} handle=".title-bar" onStart={() => bring(win.id as Exclude<Win, null>)}>
+            <div
+              style={{ zIndex: zmap.current[win.id].z }}
+              className="fixed top-40 left-40 w-[640px] h-[420px] rounded border bg-background shadow"
+            >
+              <div className="title-bar cursor-move px-2 py-1 border-b flex items-center gap-2">
+                <span
+                  className="window-button close-button w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 cursor-pointer flex items-center justify-center text-xs text-red-900 hover:text-red-800"
+                  onClick={() => close(win.id as Exclude<Win, null>)}
+                >
+                  ×
+                </span>
+                <span
+                  className="window-button minimize-button w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-600 cursor-pointer flex items-center justify-center text-xs text-yellow-900 hover:text-yellow-800"
+                  onClick={() => close(win.id as Exclude<Win, null>)}
+                >
+                  −
+                </span>
+                <span
+                  className="window-button maximize-button w-3 h-3 rounded-full bg-green-500 hover:bg-green-600 cursor-pointer flex items-center justify-center text-xs text-green-900 hover:text-green-800"
+                  onClick={() => bring(win.id as Exclude<Win, null>)}
+                >
+                  +
+                </span>
+                <div className="title-text ml-2 text-sm">{win.title}</div>
+              </div>
+              <div className="p-2 h-[calc(100%-28px)] overflow-auto">
+                <Component />
+              </div>
             </div>
-            <div className="p-2 h-[calc(100%-28px)] overflow-auto">
-              <Terminal />
-            </div>
-          </div>
-        </Draggable>
-      )}
-      {zmap.current.synth.open && (
-        <Draggable handle=".win-title" onStart={() => bring('synth')}>
-          <div
-            style={{ zIndex: zmap.current.synth.z }}
-            className="fixed top-40 left-24 w-[520px] h-[320px] rounded border bg-background shadow"
-          >
-            <div className="win-title cursor-move px-2 py-1 border-b">
-              Synth{' '}
-              <button onClick={() => close('synth')} className="float-right">
-                ✕
-              </button>
-            </div>
-            <div className="p-2 h-[calc(100%-28px)] overflow-auto">
-              <Synth />
-            </div>
-          </div>
-        </Draggable>
-      )}
+          </Draggable>
+        );
+      })}
     </div>
   );
 }
