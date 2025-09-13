@@ -53,13 +53,13 @@ const Greeting = ({ onSendMessage }: { onSendMessage: (message: string) => void 
   ];
 
   return (
-    <div className="mx-auto mt-auto mb-8 flex flex-col justify-end px-4 w-full max-w-2xl bg-[#1E1E1E] rounded-lg py-6">
+    <div className="mx-auto mt-auto mb-8 flex flex-col justify-end px-4 w-full max-w-2xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="font-light text-lg sm:text-xl md:text-2xl mb-4 text-center"
+        className="text-base sm:text-lg text-gray-500 dark:text-gray-400 mb-2 sm:mb-3 font-heading text-center"
       >
         Ask me anything about my experience!
       </motion.div>
@@ -111,6 +111,7 @@ const PromptInput = ({ onSubmit, input, setInput, isLoading }: {
           onKeyDown={handleKeyDown}
           placeholder="Ask about my experience..."
           className="flex-1 resize-none border-none bg-transparent p-2 text-sm outline-none focus:ring-0 min-h-[44px] max-h-32"
+          style={{ fontSize: '16px' }}
           disabled={isLoading}
           maxLength={2000}
         />
@@ -239,7 +240,7 @@ const ChatGPTLayout = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6 + index * 0.1 }}
                 href={social.href}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-secondary text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors border border-border"
+                className="w-10 h-10 aspect-square flex items-center justify-center rounded-full bg-secondary text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors border border-border flex-shrink-0"
                 aria-label={social.label}
                 title={social.label}
                 target={social.href.startsWith('http') ? '_blank' : undefined}
@@ -259,29 +260,18 @@ const ChatGPTLayout = () => {
 
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto w-full md:w-[65%] mx-auto border-l border-r border-border shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-6 w-[70%] h-full flex flex-col justify-end">
+        <div className="w-full max-w-4xl mx-auto px-4 py-6 min-h-full flex flex-col justify-end">
           <AnimatePresence>
             {messages.length === 0 && <Greeting onSendMessage={async (message) => {
-              const userMessage: Message = {
-                id: Date.now().toString(),
-                role: 'user',
-                content: message,
-              };
-              
-              setMessages([userMessage]);
-              setIsLoading(true);
-              
-              // Simulate AI response
+              setInput(message);
               setTimeout(() => {
-                const aiMessage: Message = {
-                  id: (Date.now() + 1).toString(),
-                  role: 'assistant',
-                  content: `Thanks for asking "${message}"! I'd be happy to help you with that.`,
-                };
-                setMessages([userMessage, aiMessage]);
-                setIsLoading(false);
-              }, 1000);
-            }} />}}
+                const form = document.querySelector('form');
+                if (form) {
+                  const event = new Event('submit', { bubbles: true, cancelable: true });
+                  form.dispatchEvent(event);
+                }
+              }, 0);
+            }} />}
           </AnimatePresence>
           
           {messages.map((message, index) => (
@@ -346,7 +336,7 @@ const ChatGPTLayout = () => {
         transition={{ delay: 1.2 }}
         className="flex-shrink-0 border-t border-border bg-card w-full md:w-[65%] mx-auto shadow-sm rounded-b-2xl"
       >
-        <div className="max-w-4xl mx-auto px-4 py-4 w-[70%]">
+        <div className="w-full md:max-w-4xl mx-auto px-4 py-4 md:w-[70%]">
           <PromptInput 
             onSubmit={handleSubmit}
             input={input}
