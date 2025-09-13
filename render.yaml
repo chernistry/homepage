@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: personal-homepage
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: VECTARA_API_KEY
+        sync: false
+      - key: VECTARA_CUSTOMER_ID
+        sync: false
+      - key: VECTARA_CORPUS_KEY
+        sync: false
+    plan: free
+    autoDeploy: false

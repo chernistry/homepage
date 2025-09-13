@@ -25,7 +25,7 @@ export async function askVectara(
   const customPrompt = loadPrompt('vectara-rag');
   const promptTemplate = customPrompt || `[
   {"role": "system", "content": "You write brief, relevant answers to the exact question. Use only facts explicitly present in the provided search results. Do not speculate."},
-  {"role": "user", "content": "Search results for the query '${vectaraQuery}' are listed below:\n#foreach ($qResult in $vectaraQueryResults)\n[$esc.java($foreach.index + 1)] $esc.java($qResult.getText())\n\n#end\nProvide the answer only."}
+  {"role": "user", "content": "Search results for the query '${query}' are listed below:\\n#foreach ($qResult in $vectaraQueryResults)\\n[$esc.java($foreach.index + 1)] $esc.java($qResult.getText())\\n\\n#end\\nProvide the answer only."}
 ]`;
 
   const search = {
@@ -47,20 +47,20 @@ export async function askVectara(
     },
     reranker: {
       type: 'customer_reranker',
-      reranker_id: 'rnk_272725719',
+      reranker_name: 'Rerank_Multilingual_v1',
     },
   } as const;
 
   const generation = {
     prompt_template: promptTemplate,
-    max_used_search_results: 5,
+    max_used_search_results: 7,
     response_language: 'auto',
     enable_factual_consistency_score: true,
   } as const;
 
   const common = {
     save_history: true,
-    intelligent_query_rewriting: false,
+    intelligent_query_rewriting: true,
     stream_response: false,
   } as const;
 

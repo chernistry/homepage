@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
+import type { ReactNode } from 'react';
 import { expoChatConfig, type ChatConfig } from '@/lib/expo-chat-config';
 
 interface Message {

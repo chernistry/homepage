@@ -44,7 +44,7 @@ export default async function HomePage() {
                 {social.id === 'email' && <EnvelopeSimple size={24} />}
                 {social.id === 'phone' && <Phone size={24} />}
                 {social.id === 'calendly' && <CalendarPlus size={24} />}
-                {social.id === 'blog' && <Book size={24} />}
+                {/* {social.id === 'blog' && <Book size={24} />} */}
               </a>
             ))}
           </nav>

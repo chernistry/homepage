@@ -24,6 +24,6 @@ export const profile: Profile = {
     { id: 'email', label: 'Email', href: 'mailto:alex@hireex.ai' },
     { id: 'phone', label: 'Phone', href: 'tel:+972505357563' },
     { id: 'calendly', label: 'Book a Call', href: 'https://calendly.com/alexchernysh/15min' },
-    { id: 'blog', label: 'Blog', href: '/blog' },
+    // { id: 'blog', label: 'Blog', href: '/blog' },
   ],
 };
