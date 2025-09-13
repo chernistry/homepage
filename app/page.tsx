@@ -51,9 +51,9 @@ export default async function HomePage() {
 
           <div className="mb-2 sm:mb-3">
             {/* <h3 className="text-lg font-semibold mb-4">Core Expertise</h3> */}
-            <div className="flex flex-wrap gap-2 justify-center">
+            <div className="flex flex-wrap gap-1 sm:gap-2 justify-center">
               {coreSkills.slice(0, 6).map((skill) => (
-                <span key={skill} className="skill-pill core">
+                <span key={skill} className="skill-pill core text-xs sm:text-sm px-2 sm:px-3 py-1">
                   {skill}
                 </span>
               ))}

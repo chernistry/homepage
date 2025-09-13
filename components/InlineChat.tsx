@@ -80,7 +80,7 @@ export function InlineChat() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-2 sm:mt-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+    <div className="max-w-2xl mx-auto mt-3 sm:mt-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
       <div className="p-2 sm:p-3 border-b border-gray-200 dark:border-gray-700">
         <h3 className="font-semibold text-gray-800 dark:text-gray-200 text-sm sm:text-base">Ask AI About Me</h3>
       </div>
