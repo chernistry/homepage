@@ -1,0 +1,3 @@
+dev/*
+.idea/*
+migration/cleanup_and_orgranization.md
