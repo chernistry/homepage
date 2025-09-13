@@ -24,7 +24,7 @@ export const projects: Project[] = [
   {
     title: 'Meulex',
     icon: '💬',
-    description: 'Slack-native, compliance-aware agentic RAG copilot boilerplate.',
+    description: 'Slack-native, compliance-aware agentic RAG copilot .',
     href: 'https://github.com/chernistry/meulex',
     techTags: ['Slack API', 'RAG', 'Compliance']
   },

@@ -2,7 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { ThemeProvider } from 'next-themes';
-import { inter } from '@/lib/fonts';
+import { inter, outfit, ptSans } from '@/lib/fonts';
 import MacHeader from '@/components/MacHeader';
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${outfit.variable} ${ptSans.variable}`}>
       <head>
         
         
