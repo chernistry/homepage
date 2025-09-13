@@ -24,10 +24,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
-        <link
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet"
-        />
+        
+        
+        
         <link
           href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&family=PT+Sans:wght@400;700&display=swap"
           rel="stylesheet"

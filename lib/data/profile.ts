@@ -14,7 +14,7 @@ export type Profile = {
 
 export const profile: Profile = {
   name: 'Alex Chernysh',
-  role: 'Staff Solutions Architect • Glue Engineer',
+  role: 'AI & Glue Engineer',
   hook: 'Black‑box chaos in your stack? I build the calm layer.',
   hiringBadge: "SEP'25",
   socials: [

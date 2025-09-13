@@ -1,7 +1,17 @@
-import ChatWidget from '@/components/ChatWidget';
-import WindowHost from '@/components/windows/WindowHost';
+
 import { profile } from '@/lib/data/profile';
 import { coreSkills } from '@/lib/data/skills';
+import { clients } from '@/lib/data/clients';
+import Image from 'next/image';
+import {
+  LinkedinLogo,
+  GithubLogo,
+  WhatsappLogo,
+  EnvelopeSimple,
+  Phone,
+  CalendarPlus,
+  Book,
+} from "@phosphor-icons/react/dist/ssr";
 
 export default async function HomePage() {
   return (
@@ -16,7 +26,7 @@ export default async function HomePage() {
           <p className="text-lg text-gray-500 dark:text-gray-400 mb-6">{profile.hook}</p>
 
           <nav className="flex gap-4 justify-center mb-8">
-            {profile.socials.map(social => (
+            {profile.socials.map((social) => (
               <a
                 key={social.id}
                 href={social.href}
@@ -26,29 +36,29 @@ export default async function HomePage() {
                 target={social.href.startsWith('http') ? '_blank' : undefined}
                 rel="noreferrer"
               >
-                {social.id === 'linkedin' && '💼'}
-                {social.id === 'github' && '💻'}
-                {social.id === 'whatsapp' && '📱'}
-                {social.id === 'email' && '✉️'}
-                {social.id === 'phone' && '📞'}
-                {social.id === 'calendly' && '📅'}
-                {social.id === 'blog' && '📝'}
+                {social.id === 'linkedin' && <LinkedinLogo size={24} />}
+                {social.id === 'github' && <GithubLogo size={24} />}
+                {social.id === 'whatsapp' && <WhatsappLogo size={24} />}
+                {social.id === 'email' && <EnvelopeSimple size={24} />}
+                {social.id === 'phone' && <Phone size={24} />}
+                {social.id === 'calendly' && <CalendarPlus size={24} />}
+                {social.id === 'blog' && <Book size={24} />}
               </a>
             ))}
           </nav>
 
           <div className="mb-8">
-            <h3 className="text-lg font-semibold mb-4">Core Expertise</h3>
+            {/* <h3 className="text-lg font-semibold mb-4">Core Expertise</h3> */}
             <div className="flex flex-wrap gap-2 justify-center">
-              {coreSkills.slice(0, 6).map(skill => (
-                <span key={skill} className="skill-pill core">{skill}</span>
+              {coreSkills.slice(0, 6).map((skill) => (
+                <span key={skill} className="skill-pill core">
+                  {skill}
+                </span>
               ))}
             </div>
           </div>
 
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Click the dock icons below to explore my work →
-          </p>
+
 
           <div className="mt-8 max-w-md mx-auto">
             <label
@@ -71,7 +81,31 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <WindowHost />
+      <section className="container mx-auto px-4 py-8 max-w-4xl">
+        <h3 className="text-center text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-6">
+          Trusted By
+        </h3>
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+          {clients.map((client) => (
+            <a
+              key={client.name}
+              href={client.href}
+              target="_blank"
+              rel="noreferrer"
+              title={client.name}
+            >
+              <Image
+                src={client.logo}
+                alt={client.alt}
+                width={100}
+                height={40}
+                className="object-contain client-logo"
+              />
+            </a>
+          ))}
+        </div>
+      </section>
+      
     </>
   );
 }
