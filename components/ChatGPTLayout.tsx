@@ -13,6 +13,7 @@ import {
   PaperPlaneRight,
 } from "@phosphor-icons/react/dist/ssr";
 import { motion, AnimatePresence } from 'framer-motion';
+import MacHeader from './MacHeader';
 
 interface Message {
   id: string;
@@ -47,13 +48,13 @@ function StreamingText({ text, onComplete }: StreamingTextProps) {
 
 const Greeting = () => {
   return (
-    <div className="mx-auto mt-8 flex size-full max-w-3xl flex-col justify-center px-4">
+    <div className="mx-auto mt-8 flex size-full max-w-3xl flex-col justify-center px-4 w-[70%]">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
         transition={{ delay: 0.3 }}
-        className="font-semibold text-lg md:text-xl mb-2"
+        className="font-semibold text-base sm:text-lg md:text-xl mb-2 text-center"
       >
         Ask me anything about my experience!
       </motion.div>
@@ -62,9 +63,9 @@ const Greeting = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
         transition={{ delay: 0.4 }}
-        className="text-base text-zinc-500 dark:text-zinc-400"
+        className="text-sm sm:text-base text-muted-foreground text-center leading-relaxed"
       >
-        Try: "What's your background?" or "Tell me about your skills"
+        Try: <span className="block sm:inline">&ldquo;What&rsquo;s your background?&rdquo;</span> or <span className="block sm:inline">&ldquo;Tell me about your skills&rdquo;</span>
       </motion.div>
     </div>
   );
@@ -168,13 +169,15 @@ const ChatGPTLayout = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-29px)] flex flex-col bg-background">
+    <>
+      <MacHeader />
+      <div className="h-[calc(100vh-29px)] flex flex-col bg-background">
       {/* Header with profile info */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex-shrink-0 border-b border-border bg-card mt-2"
+        className="flex-shrink-0 border-b border-border bg-card mt-2 w-full md:w-[65%] mx-auto"
       >
         <div className="max-w-4xl mx-auto px-4 py-6 text-center w-4/5">
           <motion.h1 
@@ -234,8 +237,8 @@ const ChatGPTLayout = () => {
       </motion.div>
 
       {/* Messages area */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-4xl mx-auto px-4 py-6 w-4/5">
+      <div className="flex-1 overflow-y-auto w-full md:w-[65%] mx-auto border-l border-r border-border">
+        <div className="max-w-4xl mx-auto px-4 py-6 w-[70%]">
           <AnimatePresence>
             {messages.length === 0 && <Greeting />}
           </AnimatePresence>
@@ -300,9 +303,9 @@ const ChatGPTLayout = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2 }}
-        className="flex-shrink-0 border-t border-border bg-card"
+        className="flex-shrink-0 border-t border-border bg-card w-full md:w-[65%] mx-auto"
       >
-        <div className="max-w-4xl mx-auto px-4 py-4 w-4/5">
+        <div className="max-w-4xl mx-auto px-4 py-4 w-[70%]">
           <PromptInput 
             onSubmit={handleSubmit}
             input={input}
@@ -312,6 +315,7 @@ const ChatGPTLayout = () => {
         </div>
       </motion.div>
     </div>
+    </>
   );
 };
 

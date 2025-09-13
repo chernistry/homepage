@@ -4,5 +4,9 @@
 import ChatGPTLayout from '@/components/ChatGPTLayout';
 
 export default function HomePage() {
-  return <ChatGPTLayout />;
+  return (
+    <div className="flex flex-col h-screen">
+      <ChatGPTLayout />
+    </div>
+  );
 }

@@ -1,46 +1,30 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
-import { ThemeProvider } from 'next-themes';
-import { inter, outfit, ptSans } from '@/lib/fonts';
-import MacHeader from '@/components/MacHeader';
+import { Inter } from 'next/font/google';
+import { ThemeProvider } from '@/components/theme-provider';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Alex Chernysh - Staff Solutions Architect • Glue Engineer',
-  description: 'Black‑box chaos in your stack? I build the calm layer.',
-  robots: 'index, follow',
+  title: 'Alex Chernysh',
+  description: 'AI-powered personal services',
 };
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-};
-
-interface RootLayoutProps {
-  children: ReactNode;
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${outfit.variable} ${ptSans.variable}`}>
-      <head>
-        
-        
-        
-        <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&family=PT+Sans:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="font-sans antialiased">
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <MacHeader />
-          <main>{children}</main>
+          {children}
         </ThemeProvider>
       </body>
     </html>
