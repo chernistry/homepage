@@ -48,7 +48,7 @@ function StreamingText({ text, onComplete }: StreamingTextProps) {
 
 const Greeting = () => {
   return (
-    <div className="mx-auto mt-8 flex size-full max-w-3xl flex-col justify-center px-4 w-[70%]">
+    <div className="mx-auto mt-8 flex size-full max-w-3xl flex-col justify-center px-4 w-[70%] bg-[#1E1E1E] rounded-lg py-8">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -87,7 +87,7 @@ const PromptInput = ({ onSubmit, input, setInput, isLoading }: {
   };
 
   return (
-    <form onSubmit={onSubmit} className="w-full overflow-hidden rounded-xl border bg-background shadow-sm">
+    <form onSubmit={onSubmit} className="w-full overflow-hidden rounded-2xl border bg-[#1E1E1E] shadow-sm">
       <div className="flex items-end gap-2 p-2">
         <textarea
           value={input}
@@ -101,9 +101,14 @@ const PromptInput = ({ onSubmit, input, setInput, isLoading }: {
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          id="composer-submit-button"
+          aria-label="Send prompt"
+          data-testid="send-button"
+          className="h-8 w-8 flex items-center justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors self-center"
         >
-          <PaperPlaneRight size={16} />
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="icon">
+            <path d="M8.99992 16V6.41407L5.70696 9.70704C5.31643 10.0976 4.68342 10.0976 4.29289 9.70704C3.90237 9.31652 3.90237 8.6835 4.29289 8.29298L9.29289 3.29298L9.36907 3.22462C9.76184 2.90427 10.3408 2.92686 10.707 3.29298L15.707 8.29298L15.7753 8.36915C16.0957 8.76192 16.0731 9.34092 15.707 9.70704C15.3408 10.0732 14.7618 10.0958 14.3691 9.7754L14.2929 9.70704L10.9999 6.41407V16C10.9999 16.5523 10.5522 17 9.99992 17C9.44764 17 8.99992 16.5523 8.99992 16Z"></path>
+          </svg>
         </button>
       </div>
     </form>
@@ -177,7 +182,7 @@ const ChatGPTLayout = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex-shrink-0 border-b border-border bg-card mt-2 w-full md:w-[65%] mx-auto"
+        className="flex-shrink-0 border-b border-border bg-card mt-2 w-full md:w-[65%] mx-auto shadow-sm rounded-t-2xl"
       >
         <div className="max-w-4xl mx-auto px-4 py-6 text-center w-4/5">
           <motion.h1 
@@ -237,7 +242,7 @@ const ChatGPTLayout = () => {
       </motion.div>
 
       {/* Messages area */}
-      <div className="flex-1 overflow-y-auto w-full md:w-[65%] mx-auto border-l border-r border-border">
+      <div className="flex-1 overflow-y-auto w-full md:w-[65%] mx-auto border-l border-r border-border shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-6 w-[70%]">
           <AnimatePresence>
             {messages.length === 0 && <Greeting />}
@@ -303,7 +308,7 @@ const ChatGPTLayout = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2 }}
-        className="flex-shrink-0 border-t border-border bg-card w-full md:w-[65%] mx-auto"
+        className="flex-shrink-0 border-t border-border bg-card w-full md:w-[65%] mx-auto shadow-sm rounded-b-2xl"
       >
         <div className="max-w-4xl mx-auto px-4 py-4 w-[70%]">
           <PromptInput 
