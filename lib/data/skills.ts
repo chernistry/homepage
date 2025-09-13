@@ -1,13 +1,7 @@
 export const coreSkills = [
-  'Python',
-  'FastAPI',
-  'LangGraph',
-  'Agentic RAG',
-  'LLM Integration',
-  'Qdrant',
-  'Redis',
-  'PostgreSQL',
-  'Docker'
+  'RAG & AI Agents',
+  'LLM Integration', 
+  'Full-Stack'
 ] as const;
 
 export const secondarySkills = [

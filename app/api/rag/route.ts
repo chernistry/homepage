@@ -31,6 +31,8 @@ export async function POST(req: NextRequest) {
         {
           answer: data.answer,
           sources: data.sources ?? [],
+          chatId: data.chatId,
+          turnId: data.turnId,
         },
         {
           headers: { 'cache-control': 'no-store' },
@@ -60,6 +62,8 @@ export async function POST(req: NextRequest) {
           {
             answer: data.answer,
             sources: data.sources ?? [],
+            chatId: data.chatId,
+            turnId: data.turnId,
           },
           {
             headers: { 'cache-control': 'no-store' },

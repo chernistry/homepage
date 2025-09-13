@@ -4,7 +4,7 @@ import { loadPrompt, formatPrompt } from '@/lib/prompts';
 
 export type RAGReq = { query: string; conversationId?: string };
 export type RAGSource = { title: string; url?: string; id?: string };
-export type RAGRes = { answer: string; sources?: RAGSource[] };
+export type RAGRes = { answer: string; sources?: RAGSource[]; chatId?: string; turnId?: string };
 
 const cache = new TTLCache<RAGRes>(5_000); // 5s minimal cache to dedupe bursts
 const breaker = new CircuitBreaker(
@@ -20,48 +20,70 @@ export async function askVectara(
   const hit = cache.get(key);
   if (hit) return hit;
 
-  const url = 'https://api.vectara.io/v2/chats';
+  const baseUrl = 'https://api.vectara.io/v2';
 
   const customPrompt = loadPrompt('vectara-rag');
-  const promptTemplate = customPrompt || `You are Alex Chernysh's AI assistant. Answer questions about his professional background using the search results provided.
+  const promptTemplate = customPrompt || `[
+  {"role": "system", "content": "You write brief, relevant answers to the exact question. Use only facts explicitly present in the provided search results. Do not speculate."},
+  {"role": "user", "content": "Search results for the query '${vectaraQuery}' are listed below:\n#foreach ($qResult in $vectaraQueryResults)\n[$esc.java($foreach.index + 1)] $esc.java($qResult.getText())\n\n#end\nProvide the answer only."}
+]`;
 
-Search results: {search_results}
-Question: {query}
-Answer:`;
-
-  const body = {
-    query,
-    search: {
-      corpora: [{
+  const search = {
+    corpora: [
+      {
         corpus_key: process.env.VECTARA_CORPUS_KEY || 'personal-cv',
         metadata_filter: '',
         lexical_interpolation: 0.005,
-        custom_dimensions: {}
-      }],
-      offset: 0,
-      limit: 25,
-      context_configuration: {
-        sentences_before: 2,
-        sentences_after: 2,
-        start_tag: '%START_SNIPPET%',
-        end_tag: '%END_SNIPPET%'
+        custom_dimensions: {},
       },
-      reranker: {
-        type: 'customer_reranker',
-        reranker_id: 'rnk_272725719'
-      }
+    ],
+    offset: 0,
+    limit: 25,
+    context_configuration: {
+      sentences_before: 2,
+      sentences_after: 2,
+      start_tag: '%START_SNIPPET%',
+      end_tag: '%END_SNIPPET%',
     },
+    reranker: {
+      type: 'customer_reranker',
+      reranker_id: 'rnk_272725719',
+    },
+  } as const;
+
+  const generation = {
+    prompt_template: promptTemplate,
+    max_used_search_results: 5,
+    response_language: 'auto',
+    enable_factual_consistency_score: true,
+  } as const;
+
+  const common = {
+    save_history: true,
+    intelligent_query_rewriting: false,
     stream_response: false,
-    generation: {
-      prompt_template: promptTemplate,
-      max_used_search_results: 5,
-      response_language: 'auto',
-      enable_factual_consistency_score: true
-    },
-    chat: {
-      store: true
-    }
-  };
+  } as const;
+
+  const continueChat = !!conversationId && /^cht_/.test(conversationId);
+  const url = continueChat
+    ? `${baseUrl}/chats/${conversationId}/turns`
+    : `${baseUrl}/chats`;
+
+  const body = continueChat
+    ? {
+        query,
+        search,
+        generation,
+        chat: { store: true },
+        ...common,
+      }
+    : {
+        query,
+        search,
+        generation,
+        chat: { store: true },
+        ...common,
+      };
 
   const headers: Record<string, string> = {
     'content-type': 'application/json',
@@ -84,6 +106,8 @@ Answer:`;
 
   const out: RAGRes = {
     answer: j?.answer || '',
+    chatId: j?.chat_id || (continueChat ? conversationId : undefined),
+    turnId: j?.turn_id,
     sources: (j?.search_results || []).map((h: any) => ({
       title: h?.document_metadata?.title || 'Document',
       url: h?.document_metadata?.url,
