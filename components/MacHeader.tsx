@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
+import { Sun, Moon } from "@phosphor-icons/react/dist/ssr";
 
 /**
  * Formats a Date object to HH:mm format (24-hour)
@@ -143,7 +144,7 @@ export default function MacHeader() {
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           title="Toggle theme"
         >
-          {theme === 'dark' ? '☀️' : '🌙'}
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         </button>
       </div>
       <div className="mac-header-right" aria-label={`Current time: ${time}`}>

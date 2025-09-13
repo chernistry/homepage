@@ -40,7 +40,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           disableTransitionOnChange
         >
           <MacHeader />
-          <main className="min-h-screen">{children}</main>
+          <main>{children}</main>
         </ThemeProvider>
       </body>
     </html>
