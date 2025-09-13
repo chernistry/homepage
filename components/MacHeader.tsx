@@ -35,6 +35,36 @@ const GO_MENU: MenuItem[] = [
     shortcut: '⇧⌘B',
     onClick: () => { window.location.href = '/blog'; },
   },
+  {
+    id: 'linkedin',
+    label: 'LinkedIn',
+    onClick: () => { window.open('https://www.linkedin.com/in/sasha-chernysh/', '_blank'); },
+  },
+  {
+    id: 'github',
+    label: 'GitHub',
+    onClick: () => { window.open('https://github.com/chernistry', '_blank'); },
+  },
+  {
+    id: 'whatsapp',
+    label: 'WhatsApp',
+    onClick: () => { window.open('https://wa.me/972505357563', '_blank'); },
+  },
+  {
+    id: 'email',
+    label: 'Email',
+    onClick: () => { window.location.href = 'mailto:alex@hireex.ai'; },
+  },
+  {
+    id: 'phone',
+    label: 'Phone',
+    onClick: () => { window.location.href = 'tel:+972505357563'; },
+  },
+  {
+    id: 'book-call',
+    label: 'Book a Call',
+    onClick: () => { window.open('https://calendly.com/alexchernysh/15min', '_blank'); },
+  },
 ];
 
 /**
