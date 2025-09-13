@@ -46,26 +46,42 @@ function StreamingText({ text, onComplete }: StreamingTextProps) {
   return <span>{displayedText}<span className="animate-pulse">|</span></span>;
 }
 
-const Greeting = () => {
+const Greeting = ({ onSendMessage }: { onSendMessage: (message: string) => void }) => {
+  const suggestions = [
+    "What's your background?",
+    "Tell me about your skills"
+  ];
+
   return (
-    <div className="mx-auto mt-8 flex size-full max-w-3xl flex-col justify-center px-4 w-[70%] bg-[#1E1E1E] rounded-lg py-8">
+    <div className="mx-auto mt-auto mb-8 flex flex-col justify-end px-4 w-full max-w-2xl bg-[#1E1E1E] rounded-lg py-6">
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 10 }}
-        transition={{ delay: 0.3 }}
-        className="font-semibold text-base sm:text-lg md:text-xl mb-2 text-center"
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="font-light text-lg sm:text-xl md:text-2xl mb-4 text-center"
       >
         Ask me anything about my experience!
       </motion.div>
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 10 }}
-        transition={{ delay: 0.4 }}
-        className="text-sm sm:text-base text-muted-foreground text-center leading-relaxed"
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+        className="flex flex-col sm:flex-row gap-3 justify-center items-center"
       >
-        Try: <span className="block sm:inline">&ldquo;What&rsquo;s your background?&rdquo;</span> or <span className="block sm:inline">&ldquo;Tell me about your skills&rdquo;</span>
+        {suggestions.map((suggestion, index) => (
+          <motion.button
+            key={index}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, delay: 0.2 + index * 0.1, ease: "easeOut" }}
+            onClick={() => onSendMessage(suggestion)}
+            className="px-4 py-2 bg-border hover:bg-accent text-sm whitespace-nowrap rounded-full transition-all duration-200 cursor-pointer hover:scale-105"
+          >
+            {suggestion}
+          </motion.button>
+        ))}
       </motion.div>
     </div>
   );
@@ -243,9 +259,29 @@ const ChatGPTLayout = () => {
 
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto w-full md:w-[65%] mx-auto border-l border-r border-border shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-6 w-[70%]">
+        <div className="max-w-4xl mx-auto px-4 py-6 w-[70%] h-full flex flex-col justify-end">
           <AnimatePresence>
-            {messages.length === 0 && <Greeting />}
+            {messages.length === 0 && <Greeting onSendMessage={async (message) => {
+              const userMessage: Message = {
+                id: Date.now().toString(),
+                role: 'user',
+                content: message,
+              };
+              
+              setMessages([userMessage]);
+              setIsLoading(true);
+              
+              // Simulate AI response
+              setTimeout(() => {
+                const aiMessage: Message = {
+                  id: (Date.now() + 1).toString(),
+                  role: 'assistant',
+                  content: `Thanks for asking "${message}"! I'd be happy to help you with that.`,
+                };
+                setMessages([userMessage, aiMessage]);
+                setIsLoading(false);
+              }, 1000);
+            }} />}}
           </AnimatePresence>
           
           {messages.map((message, index) => (
