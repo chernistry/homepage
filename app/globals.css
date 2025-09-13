@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+/* macOS Header Styles */
+.mac-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 29px;
+  padding: 0 12px;
+  backdrop-filter: blur(8px);
+  background: color-mix(in oklab, canvas, transparent 25%);
+  border-bottom: 1px solid color-mix(in oklab, canvastext, transparent 85%);
+  font: 13px/1.0 system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.mac-header-left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.mac-item {
+  opacity: 0.9;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.15s ease;
+}
+
+.mac-item:hover {
+  opacity: 1;
+}
+
+.mac-btn {
+  font-weight: 600;
+}
+
+.mac-header-right {
+  letter-spacing: 0.2px;
+  opacity: 0.85;
+  font-variant-numeric: tabular-nums;
+}
