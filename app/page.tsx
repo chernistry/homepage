@@ -3,7 +3,7 @@ export default async function HomePage() {
     <section className="container mx-auto px-4 py-16 max-w-4xl">
       <div className="space-y-6">
         <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
-          Hello, I'm Sasha
+          Hello, I&apos;m Sasha
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
           Welcome to my personal homepage. This is the foundation setup — blog

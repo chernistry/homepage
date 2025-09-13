@@ -8,8 +8,12 @@ import MacHeader from '@/components/MacHeader';
 export const metadata: Metadata = {
   title: 'Sasha C. | Homepage',
   description: 'Personal portfolio and blog',
-  viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 interface RootLayoutProps {
