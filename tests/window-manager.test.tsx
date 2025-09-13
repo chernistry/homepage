@@ -8,20 +8,20 @@ describe('WindowManager', () => {
     cleanup();
   });
 
-  it('renders window launcher buttons', () => {
+  it('renders dock launcher buttons', () => {
     render(<WindowManager />);
     
-    expect(screen.getByRole('button', { name: 'Projects' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Tech' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'About' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Terminal' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Synthesizer' })).toBeInTheDocument();
+    expect(screen.getByTitle('Projects')).toBeInTheDocument();
+    expect(screen.getByTitle('Tech')).toBeInTheDocument();
+    expect(screen.getByTitle('About')).toBeInTheDocument();
+    expect(screen.getByTitle('Terminal')).toBeInTheDocument();
+    expect(screen.getByTitle('Synth')).toBeInTheDocument();
   });
 
-  it('opens window when button is clicked', () => {
+  it('opens window when dock button is clicked', () => {
     render(<WindowManager />);
     
-    const projectsButton = screen.getByRole('button', { name: 'Projects' });
+    const projectsButton = screen.getByTitle('Projects');
     fireEvent.click(projectsButton);
     
     // Window should appear with title in title bar

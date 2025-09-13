@@ -1,8 +1,9 @@
 'use client';
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Window from '@/components/macos/Window';
+import Dock from '@/components/macos/Dock';
 
 type WId = 'projects' | 'tech' | 'about' | 'terminal' | 'synth';
 type WRec = { id: WId; title: string; comp: React.ComponentType };
@@ -27,6 +28,24 @@ export default function WindowManager() {
     synth: { open: false, z: 10 },
   });
 
+  // Load window state from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('windowState');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setOpen(parsed);
+      } catch (e) {
+        // Ignore invalid saved state
+      }
+    }
+  }, []);
+
+  // Save window state to localStorage
+  useEffect(() => {
+    localStorage.setItem('windowState', JSON.stringify(open));
+  }, [open]);
+
   const bring = (id: WId) =>
     setOpen((s) => ({ ...s, [id]: { ...s[id], z: (z.current += 1) } }));
   const show = (id: WId) =>
@@ -36,17 +55,7 @@ export default function WindowManager() {
 
   return (
     <>
-      <div className="fixed bottom-4 left-4 flex gap-2">
-        {DEFS.map((d) => (
-          <button
-            key={d.id}
-            className="px-2 py-1 rounded bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600"
-            onClick={() => show(d.id)}
-          >
-            {d.title}
-          </button>
-        ))}
-      </div>
+      <Dock onLaunch={(id) => show(id as WId)} />
       {DEFS.map(({ id, title, comp: Comp }) =>
         open[id as WId]?.open ? (
           <Window

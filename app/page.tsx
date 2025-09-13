@@ -23,8 +23,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <section className="min-h-[80vh]">
+        <WindowManager />
+      </section>
       <ChatWidget />
-      <WindowManager />
     </>
   );
 }
