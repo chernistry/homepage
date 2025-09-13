@@ -1,0 +1,1239 @@
+/* Enhanced Article Styles for Prompt Engineering Feature */
+/* Scoped to prevent conflicts with global styles */
+
+/* Global body styles to ensure proper appearance */
+body.prompt-engineering-page, .prompt-engineering-page {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: 'Crimson Text', Georgia, serif !important;
+    line-height: 1.6 !important;
+}
+
+/* Scoped Reset - only for our article */
+.prompt-engineering-page * {
+    box-sizing: border-box;
+}
+
+.prompt-engineering-page .article-main,
+.prompt-engineering-page .article-main * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+}
+
+/* Ensure white background for the entire page */
+.prompt-engineering-page {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    min-height: 100vh;
+}
+
+/* Typography and Base Styles - Scoped to article container */
+.prompt-engineering-page {
+    --primary-font: 'Crimson Text', Georgia, serif;
+    --secondary-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --accent-color: #313131;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-light: #dddddd;
+    --background-light: #f8f9fa;
+    --background-white: #ffffff;
+    --max-width: 880px;         /* +10% */
+    --reading-width: 748px;     /* 680px → +10% */
+}
+
+/* Reset and base styles only for the article */
+.prompt-engineering-page .article-main {
+    font-family: var(--primary-font);
+    font-size: 21px; /* slightly larger for readability */
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--background-white);
+    margin: 0 auto;            /* center container */
+    padding: 0;
+    max-width: var(--max-width);
+    width: 100%;               /* override nytimes base main width */
+}
+
+.prompt-engineering-page .article-main * {
+    box-sizing: border-box;
+}
+
+.prompt-engineering-page .article-main p,
+.prompt-engineering-page .article-main h1,
+.prompt-engineering-page .article-main h2,
+.prompt-engineering-page .article-main h3,
+.prompt-engineering-page .article-main h4,
+.prompt-engineering-page .article-main ul,
+.prompt-engineering-page .article-main li {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    color: var(--text-primary);
+    line-height: inherit;
+}
+
+.prompt-engineering-page .article-main p {
+    margin-bottom: 1.2em;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .article-main ul {
+    list-style: none;
+}
+
+/* Link icons and external links */
+.prompt-engineering-page .article-main a {
+    color: var(--accent-color);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.95em;
+    gap: 1px;
+}
+
+.prompt-engineering-page .article-main a:hover {
+    text-decoration: underline;
+}
+
+.prompt-engineering-page .link-icon {
+    width: 13px;
+    height: 13px;
+    margin-left: 4px;
+    display: inline-block;
+    vertical-align: -2px;
+    fill: currentColor;
+}
+
+/* Normalize inline SVG in text links */
+.prompt-engineering-page .article-main a svg {
+    width: 1em; /* keep proportional to text */
+    height: 1em;
+    min-width: 12px;
+    min-height: 12px;
+}
+
+/* Base tooltip styles (fallback if JS-injected styles fail) */
+/* Tooltip base (in case JS injection fails) — style #3 (outline) */
+.prompt-engineering-page .tooltip-term {
+    position: relative;
+    cursor: help;
+    display: inline;
+    text-decoration: underline dotted rgba(49,49,49,.55);
+    text-underline-offset: 2px;
+}
+.prompt-engineering-page .tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 18px);
+    transform: translateX(-50%);
+    background: #ffffff;
+    color: #1f2937;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px dashed #9aa5b1;
+    box-shadow: 0 10px 20px rgba(18, 24, 40, .08);
+    max-width: 360px;
+    min-width: 220px;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .18s ease, visibility .18s ease;
+    pointer-events: none;
+}
+.prompt-engineering-page .tooltip-term:hover .tooltip,
+.prompt-engineering-page .tooltip-term:focus .tooltip,
+.prompt-engineering-page .tooltip-term:focus-visible .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.prompt-engineering-page .article-main strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .article-main em {
+    font-style: italic;
+    color: var(--text-primary);
+}
+
+/* Header and Navigation - Scoped and specific */
+.prompt-engineering-page .article-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-light);
+    z-index: 1000;
+}
+
+.prompt-engineering-page .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: var(--secondary-font);
+}
+
+.prompt-engineering-page .nav-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.prompt-engineering-page .nav-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--text-secondary);
+    fill: currentColor;
+    cursor: pointer;
+    transition: color 0.2s ease, fill 0.2s ease;
+    border: none;
+    background: none;
+    padding: 4px;
+}
+
+.prompt-engineering-page .nav-icon:hover {
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .section-label {
+    font-family: var(--secondary-font);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.prompt-engineering-page .publication-name {
+    font-family: 'Old English Text MT', serif;
+    font-size: 24px;
+    font-weight: normal;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.prompt-engineering-page .nav-button {
+    font-family: var(--secondary-font);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 1px solid var(--border-light);
+    background: var(--background-white);
+    color: var(--text-primary);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.prompt-engineering-page .nav-button:hover {
+    background: var(--background-light);
+}
+
+/* Main Article Layout - Scoped */
+.prompt-engineering-page .article-main {
+    margin-top: 80px;
+    padding: 0 24px;
+    background-color: var(--background-white);
+}
+
+.prompt-engineering-page .feature-article {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 40px 0;
+    background-color: var(--background-white);
+}
+
+/* Article Title Section - Scoped */
+.prompt-engineering-page .article-title-section {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.prompt-engineering-page .article-headline {
+    font-family: var(--primary-font);
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin: 0 0 16px 0;
+    letter-spacing: -0.02em;
+}
+
+.prompt-engineering-page .article-subheadline {
+    font-family: var(--primary-font);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    margin: 0 0 32px 0;
+    font-style: italic;
+}
+
+/* Copy full article button */
+.prompt-engineering-page .article-actions {
+    margin-top: 12px;
+}
+
+.prompt-engineering-page .copy-full-article-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: var(--secondary-font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: background-color .2s ease, transform .05s ease;
+}
+
+.prompt-engineering-page .copy-full-article-button:hover {
+    background: #1557b0;
+}
+
+.prompt-engineering-page .copy-full-article-button:active {
+    transform: translateY(1px);
+}
+
+.prompt-engineering-page .copy-full-article-button .copy-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.prompt-engineering-page .article-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.prompt-engineering-page .byline {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.prompt-engineering-page .author {
+    font-family: var(--secondary-font);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .publish-date {
+    font-family: var(--secondary-font);
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.prompt-engineering-page .reading-time {
+  font-family: var(--secondary-font);
+  font-size: 14px;
+  color: #666666;
+  margin-left: 12px;
+}
+
+.prompt-engineering-page .social-share {
+    display: flex;
+    gap: 12px;
+}
+
+.prompt-engineering-page .share-icon {
+    font-size: 20px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    border: none;
+    background: none;
+    padding: 4px;
+}
+
+.prompt-engineering-page .share-icon:hover {
+    color: var(--accent-color);
+}
+
+/* Article Content - Scoped */
+.prompt-engineering-page .article-lead {
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.prompt-engineering-page .drop-cap {
+    font-family: var(--primary-font);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .drop-cap::first-letter {
+    font-size: 72px;
+    font-weight: 600;
+    line-height: 1;
+    float: left;
+    margin: 8px 8px 0 0;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .article-section {
+    margin-bottom: 48px;
+    max-width: var(--reading-width);
+}
+
+.prompt-engineering-page .section-heading {
+    font-family: var(--primary-font);
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin: 0 0 24px 0;
+    letter-spacing: -0.01em;
+}
+
+/* Bridge paragraphs for coherence */
+.prompt-engineering-page .section-bridge {
+    font-family: var(--secondary-font);
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin: -8px 0 16px 0;
+}
+
+/* Special Content Boxes - Scoped */
+.prompt-engineering-page .methodology-box {
+    background: var(--background-light);
+    border-left: 4px solid var(--accent-color);
+    padding: 24px;
+    margin: 32px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.prompt-engineering-page .methodology-box h3 {
+    font-family: var(--primary-font);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .methodology-box p {
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .formula-container {
+    background: var(--background-white);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 24px;
+    margin: 24px 0;
+    text-align: center;
+}
+
+.prompt-engineering-page .formula {
+    font-family: 'Times New Roman', serif;
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .fraction {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.prompt-engineering-page .formula-caption {
+    font-family: var(--secondary-font);
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin: 0;
+}
+
+.prompt-engineering-page .highlight-box {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%);
+    border: 1px solid #bbdefb;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 24px 0;
+}
+
+.prompt-engineering-page .highlight-box h4 {
+    font-family: var(--primary-font);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: #1565c0;
+}
+
+.prompt-engineering-page .highlight-box p {
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .warning-box {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 24px 0;
+}
+
+.prompt-engineering-page .warning-box h3 {
+    font-family: var(--primary-font);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: #e65100;
+}
+
+.prompt-engineering-page .warning-box p {
+    color: var(--text-primary);
+}
+
+/* Technique Showcase - Scoped */
+.prompt-engineering-page .technique-showcase {
+    background: var(--background-light);
+    padding: 40px;
+    margin: 48px -40px;
+    border-radius: 12px;
+}
+
+.prompt-engineering-page .showcase-title {
+    font-family: var(--primary-font);
+    font-size: 36px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 32px 0;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .algorithm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.prompt-engineering-page .algorithm-card {
+    background: var(--background-white);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.prompt-engineering-page .algorithm-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.prompt-engineering-page .algorithm-card h3 {
+    font-family: var(--primary-font);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--accent-color);
+}
+
+.prompt-engineering-page .algorithm-card p {
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Performance Metrics - Scoped */
+.prompt-engineering-page .performance-metrics {
+    background: var(--background-white);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 32px;
+    margin: 32px 0;
+}
+
+.prompt-engineering-page .performance-metrics h3 {
+    font-family: var(--primary-font);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .metrics-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.prompt-engineering-page .metrics-list li {
+    font-family: var(--primary-font);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .metrics-list li:last-child {
+    border-bottom: none;
+}
+
+.prompt-engineering-page .metrics-list strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Engineering Tips - Scoped */
+.prompt-engineering-page .engineering-tips {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 32px 0;
+}
+
+.prompt-engineering-page .tip-category {
+    background: var(--background-white);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.prompt-engineering-page .tip-category h4 {
+    font-family: var(--primary-font);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 14px 0;
+    color: var(--accent-color);
+}
+
+.prompt-engineering-page .tip-category ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.prompt-engineering-page .tip-category li {
+    font-family: var(--primary-font);
+    font-size: 14px;
+    padding: 6px 0;
+    padding-left: 18px;
+    position: relative;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+.prompt-engineering-page .tip-category li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Model Guidance - Scoped */
+.prompt-engineering-page .model-guidance {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+    margin: 32px 0;
+}
+
+.prompt-engineering-page .model-category {
+    background: var(--background-light);
+    border-left: 4px solid var(--accent-color);
+    padding: 24px;
+    border-radius: 0 8px 8px 0;
+}
+
+.prompt-engineering-page .model-category h4 {
+    font-family: var(--primary-font);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .model-category p {
+    font-family: var(--primary-font);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Future Research - Scoped */
+.prompt-engineering-page .future-research {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+    border: 1px solid #ce93d8;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 32px 0;
+}
+
+.prompt-engineering-page .future-research h3 {
+    font-family: var(--primary-font);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: #6a1b9a;
+}
+
+.prompt-engineering-page .future-research ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.prompt-engineering-page .future-research li {
+    font-family: var(--primary-font);
+    padding: 8px 0;
+    padding-left: 24px;
+    position: relative;
+    color: var(--text-primary);
+}
+
+.prompt-engineering-page .future-research li::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    color: #6a1b9a;
+    font-weight: bold;
+}
+
+.prompt-engineering-page .future-research strong {
+    font-weight: 600;
+    color: #6a1b9a;
+}
+
+/* Code blocks with copy functionality - Scoped */
+.prompt-engineering-page .code-block-container {
+    position: relative;
+    margin: 16px 0;
+    background: #f8f9fa;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.prompt-engineering-page .code-block-header {
+    background: #e9ecef;
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prompt-engineering-page .code-block-title {
+    font-family: var(--secondary-font);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.prompt-engineering-page .copy-button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 3px 8px;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    transition: background-color 0.2s ease;
+}
+
+.prompt-engineering-page .copy-button:hover {
+    background: #1557b0;
+}
+
+.prompt-engineering-page .code-block-container pre {
+    margin: 0;
+    padding: 12px;
+    background: #f8f9fa;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.prompt-engineering-page .code-block-container code {
+    font-family: 'SFMono-Regular', 'Menlo', 'Consolas', 'Monaco', 'Ubuntu Mono', monospace;
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--text-primary);
+    white-space: pre;
+    word-wrap: normal;
+    tab-size: 2;
+    -moz-tab-size: 2;
+}
+
+/* Navigation buttons at bottom */
+.prompt-engineering-page .bottom-navigation {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-light);
+    text-align: center;
+}
+
+.prompt-engineering-page .nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.prompt-engineering-page .nav-button-bottom {
+    font-family: var(--secondary-font);
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border: 2px solid var(--accent-color);
+    background: transparent;
+    color: var(--accent-color);
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.prompt-engineering-page .nav-button-bottom:hover {
+    background: var(--accent-color);
+    color: white;
+    text-decoration: none;
+}
+.prompt-engineering-page .article-footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 2px solid var(--border-light);
+}
+
+.prompt-engineering-page .footer-content {
+    max-width: var(--reading-width);
+}
+
+.prompt-engineering-page .article-conclusion {
+    font-family: var(--primary-font);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: 32px;
+    font-style: italic;
+}
+
+.prompt-engineering-page .author-bio {
+    background: var(--background-light);
+    padding: 20px;
+    border-radius: 8px;
+    font-family: var(--secondary-font);
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+.prompt-engineering-page .author-bio strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Medium screens - keep engineering tips in one row */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .prompt-engineering-page .engineering-tips {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+    
+    .prompt-engineering-page .tip-category {
+        padding: 16px;
+    }
+    
+    .prompt-engineering-page .tip-category h4 {
+        font-size: 15px;
+    }
+    
+    .prompt-engineering-page .tip-category li {
+        font-size: 13px;
+        padding: 5px 0;
+        padding-left: 16px;
+    }
+}
+
+/* Responsive Design - Scoped */
+@media (max-width: 768px) {
+    .prompt-engineering-page .article-main {
+        padding: 0 16px;
+    }
+    
+    .prompt-engineering-page .article-headline {
+        font-size: 36px;
+    }
+    
+    .prompt-engineering-page .article-subheadline {
+        font-size: 20px;
+    }
+    
+    .prompt-engineering-page .technique-showcase {
+        margin: 48px -16px;
+        padding: 24px 16px;
+    }
+    
+    .prompt-engineering-page .algorithm-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .prompt-engineering-page .engineering-tips {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .prompt-engineering-page .model-guidance {
+        grid-template-columns: 1fr;
+    }
+    
+    .prompt-engineering-page .article-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .prompt-engineering-page .nav-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .prompt-engineering-page .article-main {
+        font-size: 16px; /* -10% */
+    }
+    
+    .prompt-engineering-page .article-headline {
+        font-size: 28px;
+    }
+    
+    .prompt-engineering-page .article-subheadline {
+        font-size: 18px;
+    }
+    
+    .prompt-engineering-page .section-heading {
+        font-size: 24px;
+    }
+    
+    .prompt-engineering-page .drop-cap::first-letter {
+        font-size: 56px;
+    }
+}
+
+/* Print Styles - Scoped */
+@media print {
+    .prompt-engineering-page .article-header {
+        position: static;
+        background: white;
+        border-bottom: 2px solid black;
+    }
+    
+    .prompt-engineering-page .article-main {
+        margin-top: 0;
+    }
+    
+    .prompt-engineering-page .social-share {
+        display: none;
+    }
+    
+    .prompt-engineering-page .technique-showcase {
+        background: white;
+        border: 1px solid black;
+    }
+    
+    .prompt-engineering-page .algorithm-card {
+        break-inside: avoid;
+    }
+}
+
+/* Accessibility Enhancements - Scoped */
+@media (prefers-reduced-motion: reduce) {
+    .prompt-engineering-page * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode - только при явном запросе */
+@media (prefers-color-scheme: dark) {
+    .prompt-engineering-page.dark-mode {
+        --text-primary: #e8eaed;
+        --text-secondary: #9aa0a6;
+        --border-light: #3c4043;
+        --background-light: #202124;
+        --background-white: #1a1a1a;
+    }
+    
+    .prompt-engineering-page.dark-mode .article-main {
+        background-color: var(--background-white);
+    }
+    
+    .prompt-engineering-page.dark-mode .article-header {
+        background: rgba(26, 26, 26, 0.95);
+    }
+}
+
+/* App integration overrides: ensure centered layout when embedded in Next app */
+.prompt-engineering-page .article-static {
+    display: block;
+}
+
+.prompt-engineering-page .article-static .article-main {
+    max-width: var(--max-width);
+    width: 100%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.prompt-engineering-page .article-static .feature-article {
+    max-width: var(--max-width);
+    width: 100%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.copy-full-article-container {
+  margin-bottom: 24px;
+  text-align: right;
+}
+
+.copy-full-article-button {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-family: var(--secondary-font);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.copy-full-article-button:hover {
+  background: #1557b0;
+}
+
+.copy-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* Fallback Tooltip Styles - Style #3 (Outline) */
+.prompt-engineering-page .tooltip-term {
+    position: relative;
+    display: inline;
+    text-decoration: underline dotted rgba(49,49,49,.55);
+    text-underline-offset: 2px;
+    cursor: help;
+    transition: all 0.2s ease;
+}
+
+.prompt-engineering-page .tooltip-term:hover {
+    text-decoration-color: rgba(49,49,49,.8);
+}
+
+.prompt-engineering-page .tooltip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(100% + 18px);
+    background: #ffffff;
+    color: #1f2937;
+    padding: 12px 16px;
+    border: 2px dashed #9aa5b1;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(18,24,40,.08);
+    max-width: 360px;
+    min-width: 220px;
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .18s ease, visibility .18s ease;
+    pointer-events: none;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.prompt-engineering-page .tooltip.top {
+    bottom: calc(100% + 18px);
+    transform-origin: 50% 100%;
+}
+
+.prompt-engineering-page .tooltip.bottom {
+    top: calc(100% + 18px);
+    bottom: auto;
+    transform-origin: 50% 0;
+}
+
+/* Стрелка с dashed рамкой */
+.prompt-engineering-page .tooltip.top::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 10px solid transparent;
+    border-top-color: #9aa5b1;
+    z-index: -1;
+}
+
+.prompt-engineering-page .tooltip.top::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #ffffff;
+    z-index: 1;
+}
+
+.prompt-engineering-page .tooltip.bottom::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 10px solid transparent;
+    border-bottom-color: #9aa5b1;
+    z-index: -1;
+}
+
+.prompt-engineering-page .tooltip.bottom::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-bottom-color: #ffffff;
+    z-index: 1;
+}
+
+.prompt-engineering-page .tooltip-term:hover .tooltip,
+.prompt-engineering-page .tooltip-term:focus .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Убеждаемся что контейнеры не имеют overflow: hidden */
+.prompt-engineering-page .article-section,
+.prompt-engineering-page .feature-article {
+    overflow: visible;
+}
+
+/* Понижаем z-index других элементов */
+.prompt-engineering-page .reading-progress {
+    z-index: 1001;
+}
+
+.prompt-engineering-page .article-header {
+    z-index: 1000;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .prompt-engineering-page .tooltip {
+        max-width: calc(100vw - 32px);
+        min-width: 200px;
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}
+
+/* Fix clock formatting in menu bar */
+.menu-bar-clock {
+  font-family: var(--primary-font);
+  font-size: 14px !important;
+  font-weight: 500;
+}
+
+/* Reading progress bar */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+}
+.reading-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1a73e8, #4285f4);
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+/* Scroll to top button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+.scroll-to-top.visible { opacity: 1; visibility: visible; }
+.scroll-to-top:hover { background: #1557b0; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+.scroll-to-top .icon { width: 24px; height: 24px; }
+
+/* Toast notification */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #333;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.3s ease;
+}
+.notification.show { opacity: 1; transform: translateX(0); }

@@ -1,0 +1,1244 @@
+/* Enhanced Article Styles for LLM Hallucination Prevention */
+/* Scoped to prevent conflicts with global styles */
+
+/* Global body styles to ensure proper appearance */
+body.hallucination-prevention-page, .hallucination-prevention-page {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: 'Crimson Text', Georgia, serif !important;
+    line-height: 1.5 !important; /* balanced leading for readability */
+}
+
+/* Scoped Reset - only for our article */
+.hallucination-prevention-page * {
+    box-sizing: border-box;
+}
+
+.hallucination-prevention-page .article-main,
+.hallucination-prevention-page .article-main * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+}
+
+/* Ensure white background for the entire page */
+.hallucination-prevention-page {
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    min-height: 100vh;
+}
+
+/* Typography and Base Styles - Scoped to article container */
+.hallucination-prevention-page {
+    --primary-font: 'Crimson Text', Georgia, serif;
+    --secondary-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --accent-color: #313131;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-light: #dddddd;
+    --background-light: #f8f9fa;
+    --background-white: #ffffff;
+    --max-width: 880px;         /* +10% */
+    --reading-width: 748px;     /* 680px → +10% */
+}
+
+/* Reset and base styles only for the article */
+.hallucination-prevention-page .article-main {
+    font-family: var(--primary-font);
+    font-size: 20px; /* slightly larger for readability, but smaller than prompt-engineering */
+    line-height: 1.5; /* balanced leading for readability */
+    color: var(--text-primary);
+    background-color: var(--background-white);
+    margin: 0 auto;            /* center container */
+    padding: 0;
+    max-width: var(--max-width);
+    width: 100%;               /* override nytimes base main width */
+}
+
+.hallucination-prevention-page .article-main * {
+    box-sizing: border-box;
+}
+
+.hallucination-prevention-page .article-main p,
+.hallucination-prevention-page .article-main h1,
+.hallucination-prevention-page .article-main h2,
+.hallucination-prevention-page .article-main h3,
+.hallucination-prevention-page .article-main h4,
+.hallucination-prevention-page .article-main ul,
+.hallucination-prevention-page .article-main li {
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    color: var(--text-primary);
+    line-height: inherit;
+}
+
+.hallucination-prevention-page .article-main p {
+    margin-bottom: 1.2em;
+    color: var(--text-primary);
+    text-indent: 1em;
+}
+
+.hallucination-prevention-page .article-main p:first-of-type,
+.hallucination-prevention-page .article-section > p:first-child {
+    text-indent: 0;
+}
+
+.hallucination-prevention-page .article-main ul {
+    list-style: none;
+}
+
+/* Link icons and external links */
+.hallucination-prevention-page .article-main a {
+    color: var(--accent-color);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.95em;
+    gap: 1px;
+}
+
+.hallucination-prevention-page .article-main a:hover {
+    text-decoration: underline;
+}
+
+.hallucination-prevention-page .link-icon {
+    width: 13px;
+    height: 13px;
+    margin-left: 4px;
+    display: inline-block;
+    vertical-align: -2px;
+    fill: currentColor;
+}
+
+/* Normalize inline SVG in text links */
+.hallucination-prevention-page .article-main a svg {
+    width: 1em; /* keep proportional to text */
+    height: 1em;
+    min-width: 12px;
+    min-height: 12px;
+}
+
+/* Base tooltip styles (fallback if JS-injected styles fail) */
+.hallucination-prevention-page .tooltip-term {
+    position: relative;
+    cursor: help;
+    display: inline;
+    text-decoration: underline dotted rgba(49,49,49,.55);
+    text-underline-offset: 2px;
+}
+.hallucination-prevention-page .tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 18px);
+    transform: translateX(-50%);
+    background: #ffffff;
+    color: #1f2937;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px dashed #9aa5b1;
+    box-shadow: 0 10px 20px rgba(18, 24, 40, .08);
+    max-width: 360px;
+    min-width: 220px;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .18s ease, visibility .18s ease;
+    pointer-events: none;
+}
+.hallucination-prevention-page .tooltip-term:hover .tooltip,
+.hallucination-prevention-page .tooltip-term:focus .tooltip,
+.hallucination-prevention-page .tooltip-term:focus-visible .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hallucination-prevention-page .article-main strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .article-main em {
+    font-style: italic;
+    color: var(--text-primary);
+}
+
+/* Header and Navigation - Scoped and specific */
+.hallucination-prevention-page .article-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-light);
+    z-index: 1000;
+}
+
+.hallucination-prevention-page .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: var(--secondary-font);
+}
+
+.hallucination-prevention-page .nav-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.hallucination-prevention-page .nav-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--text-secondary);
+    fill: currentColor;
+    cursor: pointer;
+    transition: color 0.2s ease, fill 0.2s ease;
+    border: none;
+    background: none;
+    padding: 4px;
+}
+
+.hallucination-prevention-page .nav-icon:hover {
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .section-label {
+    font-family: var(--secondary-font);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.hallucination-prevention-page .publication-name {
+    font-family: 'Old English Text MT', serif;
+    font-size: 24px;
+    font-weight: normal;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.hallucination-prevention-page .nav-button {
+    font-family: var(--secondary-font);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 1px solid var(--border-light);
+    background: var(--background-white);
+    color: var(--text-primary);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hallucination-prevention-page .nav-button:hover {
+    background: var(--background-light);
+}
+
+/* Main Article Layout - Scoped */
+.hallucination-prevention-page .article-main {
+    margin-top: 80px;
+    padding: 0 24px;
+    background-color: var(--background-white);
+}
+
+.hallucination-prevention-page .feature-article {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 40px 0;
+    background-color: var(--background-white);
+}
+
+/* Article Title Section - Scoped */
+.hallucination-prevention-page .article-title-section {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.hallucination-prevention-page .article-headline {
+    font-family: var(--primary-font);
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin: 0 0 16px 0;
+    letter-spacing: -0.02em;
+}
+
+.hallucination-prevention-page .article-subheadline {
+    font-family: var(--primary-font);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    margin: 0 0 32px 0;
+    font-style: italic;
+}
+
+/* Copy full article button */
+.hallucination-prevention-page .article-actions {
+    margin-top: 12px;
+}
+
+.hallucination-prevention-page .copy-full-article-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: var(--secondary-font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: background-color .2s ease, transform .05s ease;
+}
+
+.hallucination-prevention-page .copy-full-article-button:hover {
+    background: #1557b0;
+}
+
+.hallucination-prevention-page .copy-full-article-button:active {
+    transform: translateY(1px);
+}
+
+.hallucination-prevention-page .copy-full-article-button .copy-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.hallucination-prevention-page .article-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.hallucination-prevention-page .byline {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.hallucination-prevention-page .author {
+    font-family: var(--secondary-font);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .publish-date {
+    font-family: var(--secondary-font);
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.hallucination-prevention-page .reading-time {
+  font-family: var(--secondary-font);
+  font-size: 14px;
+  color: #666666;
+  margin-left: 12px;
+}
+
+.hallucination-prevention-page .social-share {
+    display: flex;
+    gap: 12px;
+}
+
+.hallucination-prevention-page .share-icon {
+    font-size: 20px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    border: none;
+    background: none;
+    padding: 4px;
+}
+
+.hallucination-prevention-page .share-icon:hover {
+    color: var(--accent-color);
+}
+
+/* Article Content - Scoped */
+.hallucination-prevention-page .article-lead {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.hallucination-prevention-page .drop-cap {
+    font-family: var(--primary-font);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .drop-cap::first-letter {
+    font-size: 72px;
+    font-weight: 600;
+    line-height: 0.8;
+    float: left;
+    margin: 0.1em 0.1em 0 0;
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .article-section {
+    margin-bottom: 48px;
+    max-width: var(--reading-width);
+}
+
+.hallucination-prevention-page .section-heading {
+    font-family: var(--primary-font);
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin: 0 0 24px 0;
+    letter-spacing: -0.01em;
+}
+
+/* Bridge paragraphs for coherence */
+.hallucination-prevention-page .section-bridge {
+    font-family: var(--secondary-font);
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin: -8px 0 16px 0;
+}
+
+/* Special Content Boxes - Scoped */
+.hallucination-prevention-page .methodology-box {
+    background: var(--background-light);
+    border-left: 4px solid var(--accent-color);
+    padding: 24px;
+    margin: 32px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.hallucination-prevention-page .methodology-box h3 {
+    font-family: var(--primary-font);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .methodology-box p {
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .formula-container {
+    background: var(--background-white);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 24px;
+    margin: 24px 0;
+    text-align: center;
+}
+
+.hallucination-prevention-page .formula {
+    font-family: 'Times New Roman', serif;
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .fraction {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.hallucination-prevention-page .formula-caption {
+    font-family: var(--secondary-font);
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin: 0;
+}
+
+.hallucination-prevention-page .highlight-box {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%);
+    border: 1px solid #bbdefb;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 24px 0;
+}
+
+.hallucination-prevention-page .highlight-box h4 {
+    font-family: var(--primary-font);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: #1565c0;
+}
+
+.hallucination-prevention-page .highlight-box p {
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .warning-box {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 24px 0;
+}
+
+.hallucination-prevention-page .warning-box h3 {
+    font-family: var(--primary-font);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: #e65100;
+}
+
+.hallucination-prevention-page .warning-box p {
+    color: var(--text-primary);
+}
+
+/* Technique Showcase - Scoped */
+.hallucination-prevention-page .technique-showcase {
+    background: var(--background-light);
+    padding: 40px;
+    margin: 48px -40px;
+    border-radius: 12px;
+}
+
+.hallucination-prevention-page .showcase-title {
+    font-family: var(--primary-font);
+    font-size: 36px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 32px 0;
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .algorithm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.hallucination-prevention-page .algorithm-card {
+    background: var(--background-white);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hallucination-prevention-page .algorithm-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.hallucination-prevention-page .algorithm-card h3 {
+    font-family: var(--primary-font);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--accent-color);
+}
+
+.hallucination-prevention-page .algorithm-card p {
+    font-family: var(--primary-font);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Performance Metrics - Scoped */
+.hallucination-prevention-page .performance-metrics {
+    background: var(--background-white);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 32px;
+    margin: 32px 0;
+}
+
+.hallucination-prevention-page .performance-metrics h3 {
+    font-family: var(--primary-font);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .metrics-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.hallucination-prevention-page .metrics-list li {
+    font-family: var(--primary-font);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .metrics-list li:last-child {
+    border-bottom: none;
+}
+
+.hallucination-prevention-page .metrics-list strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Engineering Tips - Scoped */
+.hallucination-prevention-page .engineering-tips {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 32px 0;
+}
+
+.hallucination-prevention-page .tip-category {
+    background: var(--background-white);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.hallucination-prevention-page .tip-category h4 {
+    font-family: var(--primary-font);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 14px 0;
+    color: var(--accent-color);
+}
+
+.hallucination-prevention-page .tip-category ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.hallucination-prevention-page .tip-category li {
+    font-family: var(--primary-font);
+    font-size: 14px;
+    padding: 6px 0;
+    padding-left: 18px;
+    position: relative;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+.hallucination-prevention-page .tip-category li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Model Guidance - Scoped */
+.hallucination-prevention-page .model-guidance {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+    margin: 32px 0;
+}
+
+.hallucination-prevention-page .model-category {
+    background: var(--background-light);
+    border-left: 4px solid var(--accent-color);
+    padding: 24px;
+    border-radius: 0 8px 8px 0;
+}
+
+.hallucination-prevention-page .model-category h4 {
+    font-family: var(--primary-font);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .model-category p {
+    font-family: var(--primary-font);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Future Research - Scoped */
+.hallucination-prevention-page .future-research {
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+    border: 1px solid #ce93d8;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 32px 0;
+}
+
+.hallucination-prevention-page .future-research h3 {
+    font-family: var(--primary-font);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: #6a1b9a;
+}
+
+.hallucination-prevention-page .future-research ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.hallucination-prevention-page .future-research li {
+    font-family: var(--primary-font);
+    padding: 8px 0;
+    padding-left: 24px;
+    position: relative;
+    color: var(--text-primary);
+}
+
+.hallucination-prevention-page .future-research li::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    color: #6a1b9a;
+    font-weight: bold;
+}
+
+.hallucination-prevention-page .future-research strong {
+    font-weight: 600;
+    color: #6a1b9a;
+}
+
+/* Code blocks with copy functionality - Scoped */
+.hallucination-prevention-page .code-block-container {
+    position: relative;
+    margin: 16px 0;
+    background: #f8f9fa;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.hallucination-prevention-page .code-block-header {
+    background: #e9ecef;
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hallucination-prevention-page .code-block-title {
+    font-family: var(--secondary-font);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.hallucination-prevention-page .copy-button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 3px 8px;
+    font-size: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    transition: background-color 0.2s ease;
+}
+
+.hallucination-prevention-page .copy-button:hover {
+    background: #1557b0;
+}
+
+.hallucination-prevention-page .code-block-container pre {
+    margin: 0;
+    padding: 12px;
+    background: #f8f9fa;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.hallucination-prevention-page .code-block-container code {
+    font-family: 'SFMono-Regular', 'Menlo', 'Consolas', 'Monaco', 'Ubuntu Mono', monospace;
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--text-primary);
+    white-space: pre;
+    word-wrap: normal;
+    tab-size: 2;
+    -moz-tab-size: 2;
+}
+
+/* Navigation buttons at bottom */
+.hallucination-prevention-page .bottom-navigation {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-light);
+    text-align: center;
+}
+
+.hallucination-prevention-page .nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.hallucination-prevention-page .nav-button-bottom {
+    font-family: var(--secondary-font);
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border: 2px solid var(--accent-color);
+    background: transparent;
+    color: var(--accent-color);
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.hallucination-prevention-page .nav-button-bottom:hover {
+    background: var(--accent-color);
+    color: white;
+    text-decoration: none;
+}
+.hallucination-prevention-page .article-footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 2px solid var(--border-light);
+}
+
+.hallucination-prevention-page .footer-content {
+    max-width: var(--reading-width);
+}
+
+.hallucination-prevention-page .article-conclusion {
+    font-family: var(--primary-font);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: 32px;
+    font-style: italic;
+}
+
+.hallucination-prevention-page .author-bio {
+    background: var(--background-light);
+    padding: 20px;
+    border-radius: 8px;
+    font-family: var(--secondary-font);
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+.hallucination-prevention-page .author-bio strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Medium screens - keep engineering tips in one row */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .hallucination-prevention-page .engineering-tips {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .hallucination-prevention-page .tip-category {
+        padding: 16px;
+    }
+
+    .hallucination-prevention-page .tip-category h4 {
+        font-size: 15px;
+    }
+
+    .hallucination-prevention-page .tip-category li {
+        font-size: 13px;
+        padding: 5px 0;
+        padding-left: 16px;
+    }
+}
+
+/* Responsive Design - Scoped */
+@media (max-width: 768px) {
+    .hallucination-prevention-page .article-main {
+        padding: 0 16px;
+    }
+
+    .hallucination-prevention-page .article-headline {
+        font-size: 36px;
+    }
+
+    .hallucination-prevention-page .article-subheadline {
+        font-size: 20px;
+    }
+
+    .hallucination-prevention-page .technique-showcase {
+        margin: 48px -16px;
+        padding: 24px 16px;
+    }
+
+    .hallucination-prevention-page .algorithm-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hallucination-prevention-page .engineering-tips {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .hallucination-prevention-page .model-guidance {
+        grid-template-columns: 1fr;
+    }
+
+    .hallucination-prevention-page .article-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .hallucination-prevention-page .nav-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hallucination-prevention-page .article-main {
+        font-size: 16px; /* -10% */
+    }
+
+    .hallucination-prevention-page .article-headline {
+        font-size: 28px;
+    }
+
+    .hallucination-prevention-page .article-subheadline {
+        font-size: 18px;
+    }
+
+    .hallucination-prevention-page .section-heading {
+        font-size: 24px;
+    }
+
+    .hallucination-prevention-page .drop-cap::first-letter {
+        font-size: 56px;
+    }
+}
+
+/* Print Styles - Scoped */
+@media print {
+    .hallucination-prevention-page .article-header {
+        position: static;
+        background: white;
+        border-bottom: 2px solid black;
+    }
+
+    .hallucination-prevention-page .article-main {
+        margin-top: 0;
+    }
+
+    .hallucination-prevention-page .social-share {
+        display: none;
+    }
+
+    .hallucination-prevention-page .technique-showcase {
+        background: white;
+        border: 1px solid black;
+    }
+
+    .hallucination-prevention-page .algorithm-card {
+        break-inside: avoid;
+    }
+}
+
+/* Accessibility Enhancements - Scoped */
+@media (prefers-reduced-motion: reduce) {
+    .hallucination-prevention-page * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode - только при явном запросе */
+@media (prefers-color-scheme: dark) {
+    .hallucination-prevention-page.dark-mode {
+        --text-primary: #e8eaed;
+        --text-secondary: #9aa0a6;
+        --border-light: #3c4043;
+        --background-light: #202124;
+        --background-white: #1a1a1a;
+    }
+
+    .hallucination-prevention-page.dark-mode .article-main {
+        background-color: var(--background-white);
+    }
+
+    .hallucination-prevention-page.dark-mode .article-header {
+        background: rgba(26, 26, 26, 0.95);
+    }
+}
+
+/* App integration overrides: ensure centered layout when embedded in Next app */
+.hallucination-prevention-page .article-static {
+    display: block;
+}
+
+.hallucination-prevention-page .article-static .article-main {
+    max-width: var(--max-width);
+    width: 100%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.hallucination-prevention-page .article-static .feature-article {
+    max-width: var(--max-width);
+    width: 100%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.copy-full-article-container {
+  margin-bottom: 24px;
+  text-align: right;
+}
+
+.copy-full-article-button {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-family: var(--secondary-font);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.copy-full-article-button:hover {
+  background: #1557b0;
+}
+
+.copy-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* Fallback Tooltip Styles - Style #3 (Outline) */
+.hallucination-prevention-page .tooltip-term {
+    position: relative;
+    display: inline;
+    text-decoration: underline dotted rgba(49,49,49,.55);
+    text-underline-offset: 2px;
+    cursor: help;
+    transition: all 0.2s ease;
+}
+
+.hallucination-prevention-page .tooltip-term:hover {
+    text-decoration-color: rgba(49,49,49,.8);
+}
+
+.hallucination-prevention-page .tooltip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(100% + 18px);
+    background: #ffffff;
+    color: #1f2937;
+    padding: 12px 16px;
+    border: 2px dashed #9aa5b1;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(18,24,40,.08);
+    max-width: 360px;
+    min-width: 220px;
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .18s ease, visibility .18s ease;
+    pointer-events: none;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.hallucination-prevention-page .tooltip.top {
+    bottom: calc(100% + 18px);
+    transform-origin: 50% 100%;
+}
+
+.hallucination-prevention-page .tooltip.bottom {
+    top: calc(100% + 18px);
+    bottom: auto;
+    transform-origin: 50% 0;
+}
+
+/* Стрелка с dashed рамкой */
+.hallucination-prevention-page .tooltip.top::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 10px solid transparent;
+    border-top-color: #9aa5b1;
+    z-index: -1;
+}
+
+.hallucination-prevention-page .tooltip.top::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #ffffff;
+    z-index: 1;
+}
+
+.hallucination-prevention-page .tooltip.bottom::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 10px solid transparent;
+    border-bottom-color: #9aa5b1;
+    z-index: -1;
+}
+
+.hallucination-prevention-page .tooltip.bottom::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-bottom-color: #ffffff;
+    z-index: 1;
+}
+
+.hallucination-prevention-page .tooltip-term:hover .tooltip,
+.hallucination-prevention-page .tooltip-term:focus .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Убеждаемся что контейнеры не имеют overflow: hidden */
+.hallucination-prevention-page .article-section,
+.hallucination-prevention-page .feature-article {
+    overflow: visible;
+}
+
+/* Понижаем z-index других элементов */
+.hallucination-prevention-page .reading-progress {
+    z-index: 1001;
+}
+
+.hallucination-prevention-page .article-header {
+    z-index: 1000;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .hallucination-prevention-page .tooltip {
+        max-width: calc(100vw - 32px);
+        min-width: 200px;
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}
+
+/* Fix clock formatting in menu bar */
+.menu-bar-clock {
+  font-family: var(--primary-font);
+  font-size: 14px !important;
+  font-weight: 500;
+}
+
+/* Reading progress bar */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+}
+.reading-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1a73e8, #4285f4);
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+/* Scroll to top button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #1a73e8;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+.scroll-to-top.visible { opacity: 1; visibility: visible; }
+.scroll-to-top:hover { background: #1557b0; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+.scroll-to-top .icon { width: 24px; height: 24px; }
+
+/* Toast notification */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #333;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.3s ease;
+}
+.notification.show { opacity: 1; transform: translateX(0); }

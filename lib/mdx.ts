@@ -27,7 +27,7 @@ export type PostIndex = {
 
 async function listDirs(dir: string): Promise<string[]> {
   const ents = await fs.readdir(dir, { withFileTypes: true });
-  return ents.filter((e) => e.isDirectory()).map((e) => e.name);
+  return ents.filter((e) => e.isDirectory() && e.name !== '.gitkeep').map((e) => e.name);
 }
 
 export async function getAllPosts(): Promise<PostIndex[]> {
@@ -37,6 +37,11 @@ export async function getAllPosts(): Promise<PostIndex[]> {
     const p = path.join(BLOG_DIR, slug, 'index.mdx');
     const raw = await fs.readFile(p, 'utf8');
     const { data, content } = matter(raw);
+    // Skip posts with empty frontmatter
+    if (Object.keys(data).length === 0) {
+      console.log(`Skipping ${slug} due to empty frontmatter`);
+      continue;
+    }
     const fm = Frontmatter.parse(data);
     if (fm.draft) continue;
     const rt = readingTime(content);
