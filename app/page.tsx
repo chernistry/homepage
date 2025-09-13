@@ -1,5 +1,7 @@
 import ChatWidget from '@/components/ChatWidget';
-import WindowHost from '@/components/windows/WindowHost';
+import dynamic from 'next/dynamic';
+
+const WindowManager = dynamic(() => import('@/components/macos/WindowManager'), { ssr: false });
 
 export default async function HomePage() {
   return (
@@ -22,7 +24,7 @@ export default async function HomePage() {
         </div>
       </section>
       <ChatWidget />
-      <WindowHost />
+      <WindowManager />
     </>
   );
 }
