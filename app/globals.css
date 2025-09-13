@@ -23,6 +23,20 @@ body {
   background: #000000;
 }
 
+/* Subtle aurora/radial background overlay */
+.bg-aurora {
+  background: radial-gradient(800px 400px at 10% -10%, color-mix(in oklab, #3b82f6, transparent 70%), transparent 70%),
+              radial-gradient(600px 300px at 110% 10%, color-mix(in oklab, #22c55e, transparent 75%), transparent 75%),
+              radial-gradient(500px 300px at 50% 110%, color-mix(in oklab, #a855f7, transparent 80%), transparent 80%);
+  opacity: 0.35;
+}
+@media (prefers-color-scheme: dark) {
+  .bg-aurora {
+    opacity: 0.25;
+    filter: saturate(1.1);
+  }
+}
+
 /* Glass morphism effect */
 .glass {
   background: rgba(255, 255, 255, 0.1);
@@ -153,4 +167,3 @@ body {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-5px); }
 }
-
