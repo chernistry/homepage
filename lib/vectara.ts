@@ -1,5 +1,6 @@
 import { TTLCache } from '@/lib/cache/ttl';
 import { CircuitBreaker } from '@/lib/resilience/circuitBreaker';
+import { loadPrompt, formatPrompt } from '@/lib/prompts';
 
 export type RAGReq = { query: string; conversationId?: string };
 export type RAGSource = { title: string; url?: string; id?: string };
@@ -19,49 +20,60 @@ export async function askVectara(
   const hit = cache.get(key);
   if (hit) return hit;
 
-  const isV2 = process.env.VECTARA_QUERY_PATH?.startsWith('/v2');
-  const base = process.env.VECTARA_BASE_URL ?? 'https://api.vectara.io';
-  const path = process.env.VECTARA_QUERY_PATH ?? '/v1/query';
-  const url = `${base.replace(/\/$/, '')}${path}`;
+  const url = 'https://api.vectara.io/v2/chats';
 
-  const bodyV1 = {
-    query: [
-      {
-        query,
-        corpusKey: [
-          {
-            customerId: process.env.VECTARA_CUSTOMER_ID,
-            corpusId: process.env.VECTARA_CORPUS_ID,
-          },
-        ],
-        numResults: 6,
-        contextConfig: { sentencesBefore: 1, sentencesAfter: 1 },
-        conversationId,
-      },
-    ],
-  };
+  const customPrompt = loadPrompt('vectara-rag');
+  const promptTemplate = customPrompt || `You are Alex Chernysh's AI assistant. Answer questions about his professional background using the search results provided.
 
-  const bodyV2 = {
+Search results: {search_results}
+Question: {query}
+Answer:`;
+
+  const body = {
     query,
     search: {
-      corpora: [{ corpus_key: process.env.VECTARA_CORPUS_ID }],
-      limit: 6,
-      context_configuration: { sentences_before: 1, sentences_after: 1 },
+      corpora: [{
+        corpus_key: process.env.VECTARA_CORPUS_KEY || 'personal-cv',
+        metadata_filter: '',
+        lexical_interpolation: 0.005,
+        custom_dimensions: {}
+      }],
+      offset: 0,
+      limit: 25,
+      context_configuration: {
+        sentences_before: 2,
+        sentences_after: 2,
+        start_tag: '%START_SNIPPET%',
+        end_tag: '%END_SNIPPET%'
+      },
+      reranker: {
+        type: 'customer_reranker',
+        reranker_id: 'rnk_272725719'
+      }
     },
-    conversation: conversationId,
+    stream_response: false,
+    generation: {
+      prompt_template: promptTemplate,
+      max_used_search_results: 5,
+      response_language: 'auto',
+      enable_factual_consistency_score: true
+    },
+    chat: {
+      store: true
+    }
   };
 
   const headers: Record<string, string> = {
     'content-type': 'application/json',
+    'customer-id': process.env.VECTARA_CUSTOMER_ID!,
     'x-api-key': process.env.VECTARA_API_KEY!,
-    ...(isV2 ? {} : { 'customer-id': process.env.VECTARA_CUSTOMER_ID! }),
   };
 
   const res = await breaker.execute(() =>
     fetch(url, {
       method: 'POST',
       headers,
-      body: JSON.stringify(isV2 ? bodyV2 : bodyV1),
+      body: JSON.stringify(body),
       cache: 'no-store',
       signal,
     }),
@@ -70,23 +82,14 @@ export async function askVectara(
   if (!res.ok) throw new Error(`vectara ${res.status}`);
   const j = await res.json();
 
-  const out: RAGRes = isV2
-    ? {
-        answer: j?.summaryText ?? j?.summary?.[0]?.text ?? '',
-        sources: (j?.search_results ?? j?.results ?? []).map((h: any) => ({
-          title: h?.document_metadata?.title || h?.title || 'Document',
-          url: h?.document_metadata?.url || h?.url,
-          id: h?.document_id || h?.documentId,
-        })),
-      }
-    : {
-        answer: j?.summary?.[0]?.text ?? '',
-        sources: (j?.results ?? []).map((h: any) => ({
-          title: h?.title || 'Document',
-          url: h?.url,
-          id: h?.documentId,
-        })),
-      };
+  const out: RAGRes = {
+    answer: j?.answer || '',
+    sources: (j?.search_results || []).map((h: any) => ({
+      title: h?.document_metadata?.title || 'Document',
+      url: h?.document_metadata?.url,
+      id: h?.document_id,
+    })),
+  };
 
   cache.set(key, out);
   return out;

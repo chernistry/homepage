@@ -1,12 +1,24 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import React from 'react';
+import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import ChatWidget from '@/components/ChatWidget';
 
 // Mock fetch
-global.fetch = jest.fn();
+global.fetch = vi.fn();
+
+// Mock scrollTo
+Object.defineProperty(HTMLDivElement.prototype, 'scrollTo', {
+  value: vi.fn(),
+  writable: true,
+});
 
 describe('ChatWidget', () => {
   beforeEach(() => {
-    (fetch as jest.Mock).mockClear();
+    vi.mocked(fetch).mockClear();
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('should render with proper accessibility labels', () => {
@@ -31,10 +43,10 @@ describe('ChatWidget', () => {
   });
 
   it('should send message on Enter key', async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    vi.mocked(fetch).mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ answer: 'Test response', sources: [] }),
-    });
+    } as Response);
 
     render(<ChatWidget />);
     
@@ -51,7 +63,7 @@ describe('ChatWidget', () => {
   });
 
   it('should show error message on network failure', async () => {
-    (fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
+    vi.mocked(fetch).mockRejectedValueOnce(new Error('Network error'));
 
     render(<ChatWidget />);
     
@@ -67,13 +79,13 @@ describe('ChatWidget', () => {
   });
 
   it('should display conversation messages', async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    vi.mocked(fetch).mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ 
         answer: 'I have experience with Python', 
         sources: [{ title: 'Resume', url: '/resume' }] 
       }),
-    });
+    } as Response);
 
     render(<ChatWidget />);
     

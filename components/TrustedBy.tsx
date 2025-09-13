@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 export default function TrustedBy() {
   return (
-    <section className="container mx-auto px-4 py-8 max-w-4xl hidden">
-      <h3 className="text-center text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-6">
+    <section className="container mx-auto px-4 py-4 max-w-4xl hidden">
+      <h3 className="text-center text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
         Trusted By
       </h3>
       <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">

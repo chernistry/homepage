@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 type Src = { title: string; url?: string; id?: string };
 type Msg = { role: 'user' | 'assistant'; text: string; src?: Src[] };
@@ -12,7 +12,9 @@ export default function ChatWidget() {
   const boxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    boxRef.current?.scrollTo(0, boxRef.current.scrollHeight);
+    if (boxRef.current && typeof boxRef.current.scrollTo === 'function') {
+      boxRef.current.scrollTo(0, boxRef.current.scrollHeight);
+    }
   }, [msgs]);
 
   async function ask() {

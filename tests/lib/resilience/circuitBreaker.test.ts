@@ -1,9 +1,10 @@
+import { describe, it, expect, vi } from 'vitest';
 import { CircuitBreaker } from '@/lib/resilience/circuitBreaker';
 
 describe('CircuitBreaker', () => {
   it('should start in closed state and allow calls', async () => {
     const cb = new CircuitBreaker({ failureThreshold: 2, openMs: 100, halfSuccesses: 1 });
-    const fn = jest.fn().mockResolvedValue('success');
+    const fn = vi.fn().mockResolvedValue('success');
     
     const result = await cb.execute(fn);
     expect(result).toBe('success');
@@ -12,7 +13,7 @@ describe('CircuitBreaker', () => {
 
   it('should trip to open state after threshold failures', async () => {
     const cb = new CircuitBreaker({ failureThreshold: 2, openMs: 100, halfSuccesses: 1 });
-    const fn = jest.fn().mockRejectedValue(new Error('fail'));
+    const fn = vi.fn().mockRejectedValue(new Error('fail'));
     
     // First failure
     await expect(cb.execute(fn)).rejects.toThrow('fail');
@@ -27,7 +28,7 @@ describe('CircuitBreaker', () => {
 
   it('should transition from open to half-open after timeout', async () => {
     const cb = new CircuitBreaker({ failureThreshold: 1, openMs: 50, halfSuccesses: 1 });
-    const fn = jest.fn()
+    const fn = vi.fn()
       .mockRejectedValueOnce(new Error('fail'))
       .mockResolvedValueOnce('success');
     

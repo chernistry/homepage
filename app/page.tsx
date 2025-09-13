@@ -4,6 +4,7 @@ import { coreSkills } from '@/lib/data/skills';
 import { clients } from '@/lib/data/clients';
 import Image from 'next/image';
 import TrustedBy from '@/components/TrustedBy';
+import { InlineChat } from '@/components/InlineChat';
 import {
   LinkedinLogo,
   GithubLogo,
@@ -17,16 +18,16 @@ import {
 export default async function HomePage() {
   return (
     <>
-      <section className="container mx-auto px-4 py-16 max-w-4xl">
-        <div className="text-center mb-12">
+      <section className="container mx-auto px-4 py-6 max-w-4xl">
+        <div className="text-center mb-6">
           <div className="inline-block px-3 py-1 text-xs font-medium bg-blue-500 text-white rounded-full mb-4">
             {profile.hiringBadge}
           </div>
-          <h1 className="text-5xl font-bold mb-4">{profile.name}</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-2">{profile.role}</p>
-          <p className="text-lg text-gray-500 dark:text-gray-400 mb-6">{profile.hook}</p>
+          <h1 className="text-3xl font-bold mb-1">{profile.name}</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-1">{profile.role}</p>
+          <p className="text-lg text-gray-500 dark:text-gray-400 mb-3">{profile.hook}</p>
 
-          <nav className="flex gap-4 justify-center mb-8">
+          <nav className="flex gap-4 justify-center mb-4">
             {profile.socials.map((social) => (
               <a
                 key={social.id}
@@ -48,7 +49,7 @@ export default async function HomePage() {
             ))}
           </nav>
 
-          <div className="mb-8">
+          <div className="mb-3">
             {/* <h3 className="text-lg font-semibold mb-4">Core Expertise</h3> */}
             <div className="flex flex-wrap gap-2 justify-center">
               {coreSkills.slice(0, 6).map((skill) => (
@@ -59,27 +60,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-
-
-          <div className="mt-8 max-w-md mx-auto">
-            <label
-              className="text-sm font-medium text-gray-700 dark:text-gray-300"
-              htmlFor="ai-chat-input"
-            >
-              Ask AI About Me
-            </label>
-            <div className="mt-1 flex items-center gap-2">
-              <input
-                id="ai-chat-input"
-                type="text"
-                className="w-full rounded border p-2 text-sm bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                placeholder="e.g., What is Alex's experience with Python?"
-              />
-              <button className="px-4 py-2 rounded bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50">
-                Ask
-              </button>
-            </div>
-          </div>
+          <InlineChat />
         </div>
       </section>
       

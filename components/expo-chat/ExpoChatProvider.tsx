@@ -1,0 +1,106 @@
+'use client';
+
+import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { expoChatConfig, type ChatConfig } from '@/lib/expo-chat-config';
+
+interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  sources?: Array<{ title: string; url?: string; id?: string }>;
+  timestamp: number;
+}
+
+interface ChatContextType {
+  messages: Message[];
+  isLoading: boolean;
+  isOpen: boolean;
+  config: ChatConfig;
+  sendMessage: (content: string) => Promise<void>;
+  toggleChat: () => void;
+  clearMessages: () => void;
+}
+
+const ChatContext = createContext<ChatContextType | null>(null);
+
+export function ExpoChatProvider({ children }: { children: ReactNode }) {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const sendMessage = useCallback(async (content: string) => {
+    if (content.trim().length === 0 || isLoading) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: content.trim(),
+      timestamp: Date.now()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(expoChatConfig.apiEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: content.trim() })
+      });
+
+      if (!response.ok) throw new Error('Failed to send message');
+
+      const data = await response.json();
+      
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: data.answer || 'Sorry, I could not process your request.',
+        sources: data.sources || [],
+        timestamp: Date.now()
+      };
+
+      setMessages(prev => [...prev, assistantMessage]);
+    } catch (error) {
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: 'Sorry, there was an error processing your request.',
+        timestamp: Date.now()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isLoading]);
+
+  const toggleChat = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
+
+  const clearMessages = useCallback(() => {
+    setMessages([]);
+  }, []);
+
+  return (
+    <ChatContext.Provider value={{
+      messages,
+      isLoading,
+      isOpen,
+      config: expoChatConfig,
+      sendMessage,
+      toggleChat,
+      clearMessages
+    }}>
+      {children}
+    </ChatContext.Provider>
+  );
+}
+
+export function useChatContext() {
+  const context = useContext(ChatContext);
+  if (!context) {
+    throw new Error('useChatContext must be used within ExpoChatProvider');
+  }
+  return context;
+}
