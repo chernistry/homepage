@@ -49,9 +49,28 @@ export default async function HomePage() {
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Click the dock icons below to explore my work →
           </p>
+
+          <div className="mt-8 max-w-md mx-auto">
+            <label
+              className="text-sm font-medium text-gray-700 dark:text-gray-300"
+              htmlFor="ai-chat-input"
+            >
+              Ask AI About Me
+            </label>
+            <div className="mt-1 flex items-center gap-2">
+              <input
+                id="ai-chat-input"
+                type="text"
+                className="w-full rounded border p-2 text-sm bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+                placeholder="e.g., What is Alex's experience with Python?"
+              />
+              <button className="px-4 py-2 rounded bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 disabled:opacity-50">
+                Ask
+              </button>
+            </div>
+          </div>
         </div>
       </section>
-      <ChatWidget />
       <WindowHost />
     </>
   );

@@ -6,8 +6,8 @@ import { inter } from '@/lib/fonts';
 import MacHeader from '@/components/MacHeader';
 
 export const metadata: Metadata = {
-  title: 'Sasha C. | Homepage',
-  description: 'Personal portfolio and blog',
+  title: 'Alex Chernysh - Staff Solutions Architect • Glue Engineer',
+  description: 'Black‑box chaos in your stack? I build the calm layer.',
   robots: 'index, follow',
 };
 
@@ -23,6 +23,16 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Outfit:wght@600&family=PT+Sans:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"

@@ -3,19 +3,13 @@ import React, { useRef, useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Draggable from 'react-draggable';
 
-type Win = 'projects' | 'tech' | 'about' | 'terminal' | 'synth' | null;
+type Win = 'terminal' | 'synth' | null;
 type WState = { z: number; open: boolean };
 
-const Projects = dynamic(() => import('./Projects'), { ssr: false });
-const Tech = dynamic(() => import('./Tech'), { ssr: false });
-const About = dynamic(() => import('./About'), { ssr: false });
 const Terminal = dynamic(() => import('./Terminal'), { ssr: false });
 const Synth = dynamic(() => import('./Synth'), { ssr: false });
 
 const WINDOWS = [
-  { id: 'projects', title: 'Projects', component: Projects, icon: '📁' },
-  { id: 'tech', title: 'Tech', component: Tech, icon: '⚙️' },
-  { id: 'about', title: 'About', component: About, icon: '👤' },
   { id: 'terminal', title: 'Terminal', component: Terminal, icon: '💻' },
   { id: 'synth', title: 'Synthesizer', component: Synth, icon: '🎹' },
 ] as const;
@@ -24,9 +18,6 @@ export default function WindowHost() {
   const [active, setActive] = useState<Win>(null);
   const [z, setZ] = useState(10);
   const zmap = useRef<Record<string, WState>>({
-    projects: { z: 10, open: false },
-    tech: { z: 10, open: false },
-    about: { z: 10, open: false },
     terminal: { z: 10, open: false },
     synth: { z: 10, open: false },
   });
