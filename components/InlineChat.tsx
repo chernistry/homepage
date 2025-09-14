@@ -114,7 +114,7 @@ export function InlineChat() {
       <div className="flex-1 overflow-y-auto p-2 sm:p-3 space-y-2 sm:space-y-3">
         {messages.length === 0 && (
           <div className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">
-            Start a conversation! Try asking about my expertise or recent projects.
+            Start a conversation! Try asking about Alex's expertise or recent projects.
           </div>
         )}
         
@@ -171,7 +171,7 @@ export function InlineChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask about my experience..."
+            placeholder="Ask about Alex's experience..."
             className="flex-1 px-2 sm:px-3 py-1 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-base sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-body"
             disabled={isLoading}
             maxLength={2000}

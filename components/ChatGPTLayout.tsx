@@ -48,8 +48,8 @@ function StreamingText({ text, onComplete }: StreamingTextProps) {
 
 const Greeting = ({ onSendMessage }: { onSendMessage: (message: string) => void }) => {
   const suggestions = [
-    "What's your background?",
-    "Tell me about your skills"
+    "What's Alex's background?",
+    "Tell me about Alex's skills"
   ];
 
   return (
@@ -61,7 +61,7 @@ const Greeting = ({ onSendMessage }: { onSendMessage: (message: string) => void 
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="text-base sm:text-lg text-gray-500 dark:text-gray-400 mb-2 sm:mb-3 font-heading text-center"
       >
-        Ask me anything about my experience!
+        Ask anything about Alex's experience!
       </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -109,7 +109,7 @@ const PromptInput = ({ onSubmit, input, setInput, isLoading }: {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask about my experience..."
+          placeholder="Ask about Alex's experience..."
           className="flex-1 resize-none border-none bg-transparent p-2 text-sm outline-none focus:ring-0 min-h-[44px] max-h-32"
           style={{ fontSize: '16px' }}
           disabled={isLoading}

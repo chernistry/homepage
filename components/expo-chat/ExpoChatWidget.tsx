@@ -51,7 +51,7 @@ export function ExpoChatWidget() {
         <div className="w-80 h-96 bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            <h3 className="font-semibold text-gray-800">Ask About Me</h3>
+            <h3 className="font-semibold text-gray-800">Ask About Alex</h3>
             <button
               onClick={toggleChat}
               className="text-gray-500 hover:text-gray-700"
@@ -67,7 +67,7 @@ export function ExpoChatWidget() {
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 && (
               <div className="text-center text-gray-500 text-sm">
-                Ask me anything about my experience and background!
+                Ask anything about Alex's experience and background!
               </div>
             )}
             
@@ -131,7 +131,7 @@ export function ExpoChatWidget() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask about my experience..."
+                placeholder="Ask about Alex's experience..."
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                 disabled={isLoading}
                 maxLength={2000}
