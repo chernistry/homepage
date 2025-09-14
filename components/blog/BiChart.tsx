@@ -5,10 +5,10 @@ import { useEffect, useRef } from 'react';
 // Load Plotly dynamically
 const loadPlotly = async () => {
   if (typeof window !== 'undefined' && !(window as any).Plotly) {
-    // Load from CDN
+    // Load from local
     await new Promise<void>((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = 'https://cdn.plot.ly/plotly-2.32.0.min.js';
+      script.src = '/lib/plotly-2.32.0.min.js';
       script.onload = () => resolve();
       script.onerror = () => reject(new Error('Failed to load Plotly'));
       document.head.appendChild(script);
@@ -1185,7 +1185,7 @@ const BiChart = ({ id, type, ...props }: BiChartProps) => {
         (window as any).Plotly.purge(chartElement);
       }
     };
-  }, [id, type]); // Add chartFunctions to the dependency array
+  }, [id, type, chartFunctions]);
   
   return <div ref={chartRef} className="chart" />;
 };

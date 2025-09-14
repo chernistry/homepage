@@ -25,18 +25,20 @@ const PlotlyChart = ({ id, data, layout = {}, config = {}, style = {}, onRender 
   
   useEffect(() => {
     let isMounted = true;
+    // Copy the ref value to a variable inside the effect
+    const chartElement = chartRef.current;
     
     const renderChart = async () => {
       try {
         const Plotly = await loadPlotly();
         
-        if (!isMounted || !chartRef.current) return;
+        if (!isMounted || !chartElement) return;
         
         // Clear any existing chart
-        chartRef.current.innerHTML = '';
+        chartElement.innerHTML = '';
         
         // Render the chart
-        await Plotly.newPlot(chartRef.current, data, layout, config);
+        await Plotly.newPlot(chartElement, data, layout, config);
         
         if (onRender) onRender();
       } catch (error) {
@@ -49,11 +51,11 @@ const PlotlyChart = ({ id, data, layout = {}, config = {}, style = {}, onRender 
     return () => {
       isMounted = false;
       // Clean up the chart when component unmounts
-      if (chartRef.current && (window as any).Plotly) {
-        (window as any).Plotly.purge(chartRef.current);
+      if (chartElement && (window as any).Plotly) {
+        (window as any).Plotly.purge(chartElement);
       }
     };
-  }, [id, data, layout, config, onRender]);
+  }, [data, layout, config, onRender]);
   
   return <div ref={chartRef} id={id} style={style} />;
 };

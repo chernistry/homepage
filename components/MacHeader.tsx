@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import { Sun, Moon } from "@phosphor-icons/react/dist/ssr";
+import { Sun, Moon } from "@phosphor-icons/react";
 
 /**
  * Formats a Date object to HH:mm format (24-hour)

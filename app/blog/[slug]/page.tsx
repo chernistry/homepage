@@ -31,7 +31,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
           <ExternalLibraryLoader
             libraries={[
               {
-                src: 'https://cdn.plot.ly/plotly-2.32.0.min.js',
+                src: '/lib/plotly-2.32.0.min.js',
                 name: 'plotly'
               }
             ]}

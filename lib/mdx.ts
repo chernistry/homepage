@@ -34,25 +34,47 @@ export async function getAllPosts(): Promise<PostIndex[]> {
   const slugs = (await listDirs(BLOG_DIR)).sort();
   const out: PostIndex[] = [];
   for (const slug of slugs) {
-    const p = path.join(BLOG_DIR, slug, 'index.mdx');
-    const raw = await fs.readFile(p, 'utf8');
-    const { data, content } = matter(raw);
-    // Skip posts with empty frontmatter
-    if (Object.keys(data).length === 0) {
-      console.log(`Skipping ${slug} due to empty frontmatter`);
+    try {
+      const p = path.join(BLOG_DIR, slug, 'index.mdx');
+      const raw = await fs.readFile(p, 'utf8');
+      
+      // Try normal parsing first
+      let { data, content } = matter(raw);
+      
+      // Handle MDX files that have imports before frontmatter
+      // gray-matter expects frontmatter at the start, but MDX allows imports before it
+      if (Object.keys(data).length === 0 && raw.trim().startsWith('import ') && raw.includes('---')) {
+        // Extract the frontmatter section
+        const firstFrontmatterIndex = raw.indexOf('---');
+        if (firstFrontmatterIndex > 0) {
+          const processedRaw = raw.substring(firstFrontmatterIndex);
+          const processedResult = matter(processedRaw);
+          data = processedResult.data;
+          content = processedResult.content;
+        }
+      }
+      
+      // Skip posts with empty frontmatter
+      if (Object.keys(data).length === 0) {
+        console.log(`Skipping ${slug} due to empty frontmatter`);
+        continue;
+      }
+      
+      const fm = Frontmatter.parse(data);
+      if (fm.draft) continue;
+      const rt = readingTime(content);
+      out.push({ slug, fm, readingMinutes: Math.max(1, Math.ceil(rt.minutes)) });
+    } catch (error) {
+      console.log(`Error processing post ${slug}:`, error);
       continue;
     }
-    const fm = Frontmatter.parse(data);
-    if (fm.draft) continue;
-    const rt = readingTime(content);
-    out.push({ slug, fm, readingMinutes: Math.max(1, Math.ceil(rt.minutes)) });
   }
   return out.sort((a, b) => (a.fm.date < b.fm.date ? 1 : -1));
 }
 
 export async function getPost(slug: string): Promise<{ mdx: React.ReactNode; fm: FrontmatterT } | null> {
-  const p = path.join(BLOG_DIR, slug, 'index.mdx');
   try {
+    const p = path.join(BLOG_DIR, slug, 'index.mdx');
     const raw = await fs.readFile(p, 'utf8');
     const { data, content } = matter(raw);
     const fm = Frontmatter.parse(data);
@@ -68,6 +90,7 @@ export async function getPost(slug: string): Promise<{ mdx: React.ReactNode; fm:
     });
     return { mdx, fm };
   } catch (e) {
+    console.error(`Error getting post ${slug}:`, e);
     return null;
   }
 }
