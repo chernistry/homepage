@@ -23,7 +23,7 @@ export async function askVectara(
 
   const baseUrl = 'https://api.vectara.io/v2';
 
-  const customPrompt = loadPrompt('vectara-rag');
+  const customPrompt = loadPrompt(process.env.VECTARA_PROMPT_PATH?.replace('prompts/', '').replace('.md', '') || 'vectara-rag');
   const promptTemplate = customPrompt || `[
   {"role": "system", "content": "You write brief, relevant answers to the exact question. Use only facts explicitly present in the provided search results. Do not speculate."},
   {"role": "user", "content": "Search results for the query '${query}' are listed below:\\n#foreach ($qResult in $vectaraQueryResults)\\n[$esc.java($foreach.index + 1)] $esc.java($qResult.getText())\\n\\n#end\\nProvide the answer only."}
@@ -53,7 +53,7 @@ export async function askVectara(
   } as const;
 
   const generation = {
-    generation_preset_name: genConfig?.generationPresetName || "vectara-summary-ext-24-05-med-omni",
+    generation_preset_name: genConfig?.generationPresetName || process.env.VECTARA_GENERATION_PRESET || "vectara-summary-ext-24-05-med-omni",
     prompt_template: promptTemplate,
     max_used_search_results: 7,
     max_response_characters: genConfig?.maxResponseCharacters || 1200,

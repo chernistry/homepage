@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const ctrl = AbortSignal.timeout(10_000);
+  const ctrl = AbortSignal.timeout(30_000); // Increased from 10s to 30s for complex queries and chat continuations
   try {
     // One retry on 5xx
     try {
