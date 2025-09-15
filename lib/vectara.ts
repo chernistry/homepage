@@ -53,22 +53,12 @@ export async function askVectara(
   } as const;
 
   const generation = {
-    generation_preset_name: genConfig?.generationPresetName || "vectara-summary-table-query-ext-dec-2024-gpt-4o",
-    prompt_name: genConfig?.promptName || "vectara-experimental-extended-2024-07-16",
+    generation_preset_name: genConfig?.generationPresetName || "vectara-summary-ext-24-05-med-omni",
     prompt_template: promptTemplate,
     max_used_search_results: 7,
     max_response_characters: genConfig?.maxResponseCharacters || 1200,
-    response_language: 'eng', // Explicitly set to English to avoid language detection issues
-    enable_factual_consistency_score: false, // Disable to avoid language detection errors
-    // Note: Vectara API v2 doesn't accept temperature/frequency_penalty/presence_penalty directly
-    // These parameters must be configured in the generation preset via Vectara Console
-    // For more creative responses, use a generation preset with higher temperature configured
-  } as const;
-
-  const common = {
-    save_history: true,
-    intelligent_query_rewriting: true,
-    stream_response: false,
+    response_language: 'auto',
+    enable_factual_consistency_score: true,
   } as const;
 
   const continueChat = !!conversationId && /^cht_/.test(conversationId);
@@ -76,25 +66,18 @@ export async function askVectara(
     ? `${baseUrl}/chats/${conversationId}/turns`
     : `${baseUrl}/chats`;
 
-  const body = continueChat
-    ? {
-        query,
-        search,
-        generation,
-        chat: { store: true },
-        ...common,
-      }
-    : {
-        query,
-        search,
-        generation,
-        chat: { store: true },
-        ...common,
-      };
+  const body = {
+    query,
+    search,
+    generation,
+    chat: { store: true },
+    save_history: true,
+    intelligent_query_rewriting: true,
+    stream_response: false,
+  };
 
   const headers: Record<string, string> = {
     'content-type': 'application/json',
-    'customer-id': process.env.VECTARA_CUSTOMER_ID!,
     'x-api-key': process.env.VECTARA_API_KEY!,
   };
 
@@ -119,7 +102,7 @@ export async function askVectara(
 
   const out: RAGRes = {
     answer: j?.answer || '',
-    chatId: j?.chat_id || conversationId, // Always return the chat_id for continuation
+    chatId: j?.chat_id || conversationId,
     turnId: j?.turn_id,
     sources: (j?.search_results || []).map((h: any) => ({
       title: h?.document_metadata?.title || 'Document',

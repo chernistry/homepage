@@ -48,8 +48,8 @@ function StreamingText({ text, onComplete }: StreamingTextProps) {
 
 const Greeting = ({ onSendMessage }: { onSendMessage: (message: string) => void }) => {
   const suggestions = [
-    "What's Alex's background?",
-    "Tell me about Alex's skills"
+    "What's your background?",
+    "Tell me about your skills"
   ];
 
   return (
