@@ -67,7 +67,7 @@ export function ExpoChatWidget() {
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 && (
               <div className="text-center text-gray-500 text-sm">
-                Ask anything about Alex's experience and background!
+                Ask anything about Alex&apos;s experience and background!
               </div>
             )}
             

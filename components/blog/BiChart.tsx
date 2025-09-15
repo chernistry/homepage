@@ -41,8 +41,14 @@ const BiChart = ({ id, type, ...props }: BiChartProps) => {
     return labels;
   };
   
-  // Chart functions
-  const chartFunctions: Record<string, (elementId: string) => Promise<void>> = {
+  useEffect(() => {
+    let isMounted = true;
+    
+    // Copy the ref value to a variable inside the effect
+    const chartElement = chartRef.current;
+
+    // Chart functions
+    const chartFunctions: Record<string, (elementId: string) => Promise<void>> = {
     drawCtr: async (elementId: string) => {
       const Plotly = await loadPlotly();
       
@@ -1151,14 +1157,8 @@ const BiChart = ({ id, type, ...props }: BiChartProps) => {
         paper_bgcolor: 'rgba(0,0,0,0)' 
       }, { displayModeBar: false });
     }
-  };
+    };
   
-  useEffect(() => {
-    let isMounted = true;
-    
-    // Copy the ref value to a variable inside the effect
-    const chartElement = chartRef.current;
-    
     const renderChart = async () => {
       try {
         if (!isMounted || !chartElement) return;
@@ -1185,7 +1185,7 @@ const BiChart = ({ id, type, ...props }: BiChartProps) => {
         (window as any).Plotly.purge(chartElement);
       }
     };
-  }, [id, type, chartFunctions]);
+  }, [id, type]);
   
   return <div ref={chartRef} className="chart" />;
 };

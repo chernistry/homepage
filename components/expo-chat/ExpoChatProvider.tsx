@@ -84,7 +84,7 @@ export function ExpoChatProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading]);
+  }, [isLoading, conversationId]);
 
   const toggleChat = useCallback(() => {
     setIsOpen(prev => !prev);

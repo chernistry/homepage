@@ -125,7 +125,7 @@ export function InlineChat() {
       <div className="flex-1 overflow-y-auto p-2 sm:p-3 space-y-2 sm:space-y-3">
         {messages.length === 0 && (
           <div className="text-center text-gray-500 dark:text-gray-400 text-sm py-8">
-            Start a conversation! Try asking about Alex's expertise or recent projects.
+            Start a conversation! Try asking about Alex&apos;s expertise or recent projects.
           </div>
         )}
         

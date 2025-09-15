@@ -61,7 +61,7 @@ const Greeting = ({ onSendMessage }: { onSendMessage: (message: string) => void 
         transition={{ duration: 0.4, ease: "easeOut" }}
         className="text-base sm:text-lg text-gray-500 dark:text-gray-400 mb-2 sm:mb-3 font-heading text-center"
       >
-        Ask anything about Alex's experience!
+        Ask anything about Alex&apos;s experience!
       </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
