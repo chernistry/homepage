@@ -2,16 +2,27 @@ import { NextRequest } from 'next/server';
 import { z } from 'zod';
 import { askVectara } from '@/lib/vectara';
 
+const GenerationConfigSchema = z.object({
+  temperature: z.number().min(0).max(2).optional(),
+  maxResponseCharacters: z.number().min(1).max(10000).optional(),
+  frequencyPenalty: z.number().min(-2).max(2).optional(),
+  presencePenalty: z.number().min(-2).max(2).optional(),
+  generationPresetName: z.string().optional(),
+  promptName: z.string().optional(),
+}).optional();
+
 const Body = z.object({
   query: z.string().min(3).max(2000),
   conversationId: z.string().optional(),
+  generation: GenerationConfigSchema,
 });
 
 export async function POST(req: NextRequest) {
   const parsed = Body.safeParse(await req.json());
   if (!parsed.success) {
+    const errors = parsed.error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ');
     return new Response(
-      JSON.stringify({ code: 'BAD_REQUEST', message: 'Invalid input' }),
+      JSON.stringify({ code: 'INVALID_PARAMS', message: errors }),
       {
         status: 400,
         headers: {
@@ -73,6 +84,7 @@ export async function POST(req: NextRequest) {
       throw e;
     }
   } catch (e) {
+    console.error('RAG Error:', e);
     return new Response(
       JSON.stringify({ code: 'RAG_ERROR', message: 'Try again later' }),
       {

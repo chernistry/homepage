@@ -1,8 +1,9 @@
 import { TTLCache } from '@/lib/cache/ttl';
 import { CircuitBreaker } from '@/lib/resilience/circuitBreaker';
 import { loadPrompt, formatPrompt } from '@/lib/prompts';
+import type { GenerationConfig } from '@/lib/types';
 
-export type RAGReq = { query: string; conversationId?: string };
+export type RAGReq = { query: string; conversationId?: string; generation?: GenerationConfig };
 export type RAGSource = { title: string; url?: string; id?: string };
 export type RAGRes = { answer: string; sources?: RAGSource[]; chatId?: string; turnId?: string };
 
@@ -13,7 +14,7 @@ const breaker = new CircuitBreaker(
 );
 
 export async function askVectara(
-  { query, conversationId }: RAGReq,
+  { query, conversationId, generation: genConfig }: RAGReq,
   { signal }: { signal?: AbortSignal } = {},
 ): Promise<RAGRes> {
   const key = `${conversationId ?? 'solo'}::${query.trim()}`;
@@ -52,10 +53,16 @@ export async function askVectara(
   } as const;
 
   const generation = {
+    generation_preset_name: genConfig?.generationPresetName || "vectara-summary-table-query-ext-dec-2024-gpt-4o",
+    prompt_name: genConfig?.promptName || "vectara-experimental-extended-2024-07-16",
     prompt_template: promptTemplate,
     max_used_search_results: 7,
-    response_language: 'auto',
-    enable_factual_consistency_score: true,
+    max_response_characters: genConfig?.maxResponseCharacters || 1200,
+    response_language: 'eng', // Explicitly set to English to avoid language detection issues
+    enable_factual_consistency_score: false, // Disable to avoid language detection errors
+    // Note: Vectara API v2 doesn't accept temperature/frequency_penalty/presence_penalty directly
+    // These parameters must be configured in the generation preset via Vectara Console
+    // For more creative responses, use a generation preset with higher temperature configured
   } as const;
 
   const common = {
@@ -91,6 +98,8 @@ export async function askVectara(
     'x-api-key': process.env.VECTARA_API_KEY!,
   };
 
+  console.log('Vectara request:', { url, body: JSON.stringify(body, null, 2) });
+
   const res = await breaker.execute(() =>
     fetch(url, {
       method: 'POST',
@@ -101,12 +110,16 @@ export async function askVectara(
     }),
   );
 
-  if (!res.ok) throw new Error(`vectara ${res.status}`);
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error(`Vectara ${res.status}:`, errorText);
+    throw new Error(`vectara ${res.status}`);
+  }
   const j = await res.json();
 
   const out: RAGRes = {
     answer: j?.answer || '',
-    chatId: j?.chat_id || (continueChat ? conversationId : undefined),
+    chatId: j?.chat_id || conversationId, // Always return the chat_id for continuation
     turnId: j?.turn_id,
     sources: (j?.search_results || []).map((h: any) => ({
       title: h?.document_metadata?.title || 'Document',
@@ -118,3 +131,4 @@ export async function askVectara(
   cache.set(key, out);
   return out;
 }
+

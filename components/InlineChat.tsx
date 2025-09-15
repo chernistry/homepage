@@ -37,6 +37,7 @@ export function InlineChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [conversationId, setConversationId] = useState<string | undefined>();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -60,16 +61,26 @@ export function InlineChat() {
     setIsLoading(true);
 
     try {
+      const requestBody: any = { query: content.trim() };
+      if (conversationId) {
+        requestBody.conversationId = conversationId;
+      }
+
       const response = await fetch('/api/rag', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: content.trim() })
+        body: JSON.stringify(requestBody)
       });
 
       if (!response.ok) throw new Error('Failed to send message');
 
       const data = await response.json();
-      
+
+      // Save conversation ID for future requests
+      if (data.chatId && !conversationId) {
+        setConversationId(data.chatId);
+      }
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',

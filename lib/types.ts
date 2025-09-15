@@ -23,6 +23,18 @@ export type ChatMessage = {
   }>;
 };
 
+export type GenerationConfig = {
+  temperature?: number; // 0.0-2.0
+  maxResponseCharacters?: number; // 1-10000
+  frequencyPenalty?: number; // -2.0-2.0
+  presencePenalty?: number; // -2.0-2.0
+  topP?: number; // 0.0-1.0 - nucleus sampling
+  maxTokens?: number; // maximum tokens to generate
+  generationPresetName?: string;
+  promptName?: string;
+  systemPrompt?: string; // custom system prompt
+};
+
 export type CustomUIDataTypes = {
   'data-id': string;
   'data-title': string;

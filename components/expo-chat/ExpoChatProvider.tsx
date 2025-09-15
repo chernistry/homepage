@@ -28,6 +28,7 @@ export function ExpoChatProvider({ children }: { children: ReactNode }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [conversationId, setConversationId] = useState<string | undefined>();
 
   const sendMessage = useCallback(async (content: string) => {
     if (content.trim().length === 0 || isLoading) return;
@@ -43,16 +44,26 @@ export function ExpoChatProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
 
     try {
-      const response = await fetch(expoChatConfig.apiEndpoint, {
+      const requestBody: any = { query: content.trim() };
+      if (conversationId) {
+        requestBody.conversationId = conversationId;
+      }
+
+      const response = await fetch('/api/rag', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: content.trim() })
+        body: JSON.stringify(requestBody)
       });
 
       if (!response.ok) throw new Error('Failed to send message');
 
       const data = await response.json();
-      
+
+      // Save conversation ID for future requests
+      if (data.chatId && !conversationId) {
+        setConversationId(data.chatId);
+      }
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
