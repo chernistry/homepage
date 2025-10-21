@@ -4,3 +4,4 @@ migration/cleanup_and_orgranization.md
 .next/*
 node_modules/*
 .env.local
+.env_list
